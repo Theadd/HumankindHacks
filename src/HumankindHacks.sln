@@ -12,18 +12,17 @@ EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		HumankindLib\HumankindLib.projitems*{38f176d2-8014-46a9-ad2e-80aa014e49c0}*SharedItemsImports = 13
+		HumankindLib\HumankindLib.projitems*{d15df3dc-769f-428b-a930-982cd1851d36}*SharedItemsImports = 5
+		ModdingLib\ModdingLib.projitems*{d15df3dc-769f-428b-a930-982cd1851d36}*SharedItemsImports = 5
 		ModdingLib\ModdingLib.projitems*{edad1558-652a-4e32-a7ca-28468fba4941}*SharedItemsImports = 13
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
-		Release_net35|Any CPU = Release_net35|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{D15DF3DC-769F-428B-A930-982CD1851D36}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D15DF3DC-769F-428B-A930-982CD1851D36}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D15DF3DC-769F-428B-A930-982CD1851D36}.Release_net35|Any CPU.ActiveCfg = Release_net35|Any CPU
-		{D15DF3DC-769F-428B-A930-982CD1851D36}.Release_net35|Any CPU.Build.0 = Release_net35|Any CPU
 		{D15DF3DC-769F-428B-A930-982CD1851D36}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D15DF3DC-769F-428B-A930-982CD1851D36}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection

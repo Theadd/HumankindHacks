@@ -9,6 +9,8 @@
     <Import_RootNamespace>AnN3x.ModdingLib</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Logging\CommonValueParser.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Logging\IPrintableValueParser.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Logging\PrintableObject.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Logging\PrintableValue.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Util\Colors.cs" />

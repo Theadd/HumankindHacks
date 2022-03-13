@@ -4,7 +4,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Text;
 
-namespace AnN3x.ModdingLib
+namespace AnN3x.ModdingLib.Logging
 {
     internal class PrintableObject
     {

@@ -1,10 +1,12 @@
 ﻿using BepInEx;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.IO;
 using System.Reflection;
 using System.Text;
 using System.Runtime.CompilerServices;
+using AnN3x.ModdingLib.Logging;
 
 namespace AnN3x.ModdingLib
 {
@@ -13,32 +15,13 @@ namespace AnN3x.ModdingLib
     /// </summary>
     public class Loggr
     {
-        private static bool _devlogEnabled = true;
-        private static bool _debuglogEnabled = true;
-        private static bool _announceEnabled = true;
         private static bool _initialized;
-
         private static PropertyInfo _consoleStream;
         private static MethodInfo _setConsoleColor;
         private static Type _consoleManager;
 
+        public static bool Enabled { get; set; } = true;
         public static bool WriteLogToDisk { get; set; } = false;
-
-        /// <summary>
-        ///     Sets or gets whether the output to console of internal calls to <c>Loggr.LogInfo</c>, <c>Loggr.LogWarning</c>,
-        ///     <c>Loggr.LogError</c> and also public calls to <c>Loggr.Log</c> are enabled or not. 
-        /// </summary>
-        public static bool IsDevelopmentLogEnabled
-        {
-            get => _devlogEnabled;
-            set
-            {
-                if (value != _devlogEnabled)
-                    _Log("Development log " + (value ? "enabled." : "disabled."), ConsoleColor.White);
-
-                _devlogEnabled = value;
-            }
-        }
 
         /// <summary>
         ///     Prints a <c>message</c> to BepInEx's console with <c>defaultColor</c> as default text color. Use `%Color%` inline to change text color, where `Color` is any value within <c>ConsoleColor</c> enum.
@@ -49,7 +32,7 @@ namespace AnN3x.ModdingLib
         /// <param name="appendNewLine"></param>
         public static void Log(string message, ConsoleColor defaultColor, bool appendNewLine = true)
         {
-            if (!_devlogEnabled)
+            if (!Enabled)
                 return;
 
             _LogEx(message, defaultColor, appendNewLine);
@@ -70,7 +53,7 @@ namespace AnN3x.ModdingLib
 
         public static void Log(object obj, ConsoleColor defaultColor)
         {
-            if (!_devlogEnabled)
+            if (!Enabled)
                 return;
 
             _LogEx((new PrintableObject(obj)).ToString(), defaultColor, true);
@@ -80,7 +63,7 @@ namespace AnN3x.ModdingLib
 
         public static void LogAll(object obj, ConsoleColor defaultColor)
         {
-            if (!_devlogEnabled)
+            if (!Enabled)
                 return;
 
             _LogEx((new PrintableObject(obj)

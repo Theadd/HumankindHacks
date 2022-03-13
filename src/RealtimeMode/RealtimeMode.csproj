@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net35</TargetFramework>
+		<TargetFramework>net471</TargetFramework>
 		<Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
 		<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
 		<AssemblyName>AnN3x.Humankind.RealtimeMode</AssemblyName>
@@ -13,7 +13,7 @@
 		<OutputType>Library</OutputType>
 		<!--<AppDesignerFolder>Properties</AppDesignerFolder>-->
 		<Deterministic>true</Deterministic>
-		<DefineConstants>NOLOGTODISK</DefineConstants>
+		<DefineConstants></DefineConstants>
 		<IsCpp>false</IsCpp>
 		<DebugSymbols>false</DebugSymbols>
 		<DebugType>portable</DebugType>
@@ -23,12 +23,12 @@
 		<PlatformTarget>x64</PlatformTarget>
 		<Prefer32Bit>false</Prefer32Bit>
 		<RootNamespace>AnN3x.RealtimeMode</RootNamespace>
-		<Nullable>enable</Nullable>
+		<Nullable>disable</Nullable>
 		<ImplicitUsings>disable</ImplicitUsings>
 		<PackageLicenseExpression>Unlicense</PackageLicenseExpression>
 		<ProduceReferenceAssembly>False</ProduceReferenceAssembly>
 		<Platforms>AnyCPU</Platforms>
-		<Configurations>Debug;Release;Release_net35</Configurations>
+		<Configurations>Debug;Release</Configurations>
 	</PropertyGroup>
 
 	<PropertyGroup>
@@ -36,22 +36,7 @@
 	</PropertyGroup>
   
 	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-		<!--<TargetFramework>net471</TargetFramework>-->
-		<TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
 		<OutputPath>..\..\Release\RealtimeMode\</OutputPath>
-		<DefineConstants>MONO</DefineConstants>
-		
-		<Prefer32Bit>false</Prefer32Bit>
-		<IsCpp>false</IsCpp>
-		<DocumentationFile>..\..\Release\RealtimeMode\AnN3x.Humankind.RealtimeMode.xml</DocumentationFile>
-	</PropertyGroup>
-  
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_net35|AnyCPU'">
-		<TargetFramework>net35</TargetFramework>
-		<TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-		<OutputPath>..\..\Release\RealtimeMode\</OutputPath>
-		<DefineConstants>MONO;NET35</DefineConstants>
-		
 		<Prefer32Bit>false</Prefer32Bit>
 		<IsCpp>false</IsCpp>
 		<DocumentationFile>..\..\Release\RealtimeMode\AnN3x.Humankind.RealtimeMode.xml</DocumentationFile>
@@ -62,10 +47,6 @@
     <PackageReference Include="BepInEx.Analyzers" Version="1.0.8" PrivateAssets="all" />
     <PackageReference Include="BepInEx.Core" Version="5.*" />
     <PackageReference Include="BepInEx.PluginInfoProps" Version="1.*" />
-    <!--<PackageReference Include="UnityEngine.Modules" Version="2020.3.24">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>-->
     <PackageReference Include="UnityEngine.Modules" Version="2020.3.24" IncludeAssets="compile" />
   </ItemGroup>
   
@@ -82,9 +63,120 @@
 
 	<Target Name="PostBuildCopyPlugin" AfterTargets="PostBuild" Condition="'$(HUMANKIND_GAME_PATH)' != ''">
 		<ItemGroup>
-			<FilesToCopy Include="$(TargetPath)"/>
+			<FilesToCopy Include="$(TargetPath)" />
 		</ItemGroup>
 		<Copy SourceFiles="@(FilesToCopy)" DestinationFolder="$(HUMANKIND_GAME_PATH)\BepInEx\scripts\" />
 	</Target>
+
+	<ItemGroup>
+		<Reference Include="Amplitude.AI">
+			<HintPath>..\..\lib\References\Amplitude.AI.dll</HintPath>
+			<Private>false</Private>
+		</Reference>
+		<Reference Include="Amplitude.Core">
+			<HintPath>..\..\lib\References\Amplitude.Core.dll</HintPath>
+			<Private>false</Private>
+		</Reference>
+		<Reference Include="Amplitude">
+			<HintPath>..\..\lib\References\Amplitude.dll</HintPath>
+			<Private>false</Private>
+		</Reference>
+		<Reference Include="Amplitude.EGS">
+			<HintPath>..\..\lib\References\Amplitude.EGS.dll</HintPath>
+			<Private>false</Private>
+		</Reference>
+		<Reference Include="Amplitude.Framework">
+			<HintPath>..\..\lib\References\Amplitude.Framework.dll</HintPath>
+			<Private>false</Private>
+		</Reference>
+		<Reference Include="Amplitude.Graphics">
+			<HintPath>..\..\lib\References\Amplitude.Graphics.dll</HintPath>
+			<Private>false</Private>
+		</Reference>
+		<Reference Include="Amplitude.IO">
+			<HintPath>..\..\lib\References\Amplitude.IO.dll</HintPath>
+			<Private>false</Private>
+		</Reference>
+		<Reference Include="Amplitude.Mercury.AI.Brain">
+			<HintPath>..\..\lib\References\Amplitude.Mercury.AI.Brain.dll</HintPath>
+			<Private>false</Private>
+		</Reference>
+		<Reference Include="Amplitude.Mercury.Animation">
+			<HintPath>..\..\lib\References\Amplitude.Mercury.Animation.dll</HintPath>
+			<Private>false</Private>
+		</Reference>
+		<Reference Include="Amplitude.Mercury.Data">
+			<HintPath>..\..\lib\References\Amplitude.Mercury.Data.dll</HintPath>
+			<Private>false</Private>
+		</Reference>
+		<Reference Include="Amplitude.Mercury.Firstpass">
+			<HintPath>..\..\lib\References\Amplitude.Mercury.Firstpass.dll</HintPath>
+			<Private>false</Private>
+		</Reference>
+		<Reference Include="Amplitude.Mercury.Fx">
+			<HintPath>..\..\lib\References\Amplitude.Mercury.Fx.dll</HintPath>
+			<Private>false</Private>
+		</Reference>
+		<Reference Include="Amplitude.Mercury.Terrain">
+			<HintPath>..\..\lib\References\Amplitude.Mercury.Terrain.dll</HintPath>
+			<Private>false</Private>
+		</Reference>
+		<Reference Include="Amplitude.Mercury.WorldGenerator">
+			<HintPath>..\..\lib\References\Amplitude.Mercury.WorldGenerator.dll</HintPath>
+			<Private>false</Private>
+		</Reference>
+		<Reference Include="Amplitude.Photon">
+			<HintPath>..\..\lib\References\Amplitude.Photon.dll</HintPath>
+			<Private>false</Private>
+		</Reference>
+		<Reference Include="Amplitude.Platforms.XGP">
+			<HintPath>..\..\lib\References\Amplitude.Platforms.XGP.dll</HintPath>
+			<Private>false</Private>
+		</Reference>
+		<Reference Include="Amplitude.Steamworks">
+			<HintPath>..\..\lib\References\Amplitude.Steamworks.dll</HintPath>
+			<Private>false</Private>
+		</Reference>
+		<Reference Include="Amplitude.UI">
+			<HintPath>..\..\lib\References\Amplitude.UI.dll</HintPath>
+			<Private>false</Private>
+		</Reference>
+		<Reference Include="Assembly-CSharp-firstpass">
+			<HintPath>..\..\lib\References\Assembly-CSharp-firstpass.dll</HintPath>
+			<Private>false</Private>
+		</Reference>
+		<Reference Include="Assembly-CSharp">
+			<HintPath>..\..\lib\References\Assembly-CSharp.dll</HintPath>
+			<Private>false</Private>
+		</Reference>
+		<Reference Include="Sirenix.OdinInspector.Attributes">
+			<HintPath>..\..\lib\References\Sirenix.OdinInspector.Attributes.dll</HintPath>
+			<Private>false</Private>
+		</Reference>
+		<Reference Include="Sirenix.OdinInspector.CompatibilityLayer">
+			<HintPath>..\..\lib\References\Sirenix.OdinInspector.CompatibilityLayer.dll</HintPath>
+			<Private>false</Private>
+		</Reference>
+		<Reference Include="Sirenix.Serialization.AOTGenerated">
+			<HintPath>..\..\lib\References\Sirenix.Serialization.AOTGenerated.dll</HintPath>
+			<Private>false</Private>
+		</Reference>
+		<Reference Include="Sirenix.Serialization.Config">
+			<HintPath>..\..\lib\References\Sirenix.Serialization.Config.dll</HintPath>
+			<Private>false</Private>
+		</Reference>
+		<Reference Include="Sirenix.Serialization">
+			<HintPath>..\..\lib\References\Sirenix.Serialization.dll</HintPath>
+			<Private>false</Private>
+		</Reference>
+		<Reference Include="Sirenix.Utilities">
+			<HintPath>..\..\lib\References\Sirenix.Utilities.dll</HintPath>
+			<Private>false</Private>
+		</Reference>
+	</ItemGroup>
+
+	<Import Project="..\ModdingLib\ModdingLib.projitems" Label="Shared" />
+
+	<Import Project="..\HumankindLib\HumankindLib.projitems" Label="Shared" />
 	
 </Project>

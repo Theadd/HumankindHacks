@@ -9,7 +9,7 @@
     <Import_RootNamespace>AnN3x.HumankindLib</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)Util\PrintableValues.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Util\HumankindPrintableValueParser.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Services\" />
