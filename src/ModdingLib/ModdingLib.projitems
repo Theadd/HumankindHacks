@@ -3,11 +3,15 @@
   <PropertyGroup>
     <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
     <HasSharedItems>true</HasSharedItems>
-    <SharedGUID>6f926d1b-5ae3-4a29-99b1-7429ec4b6dfa</SharedGUID>
+    <SharedGUID>edad1558-652a-4e32-a7ca-28468fba4941</SharedGUID>
   </PropertyGroup>
   <PropertyGroup Label="Configuration">
-    <Import_RootNamespace>AnN3xLib</Import_RootNamespace>
+    <Import_RootNamespace>AnN3x.ModdingLib</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Logging\PrintableObject.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Logging\PrintableValue.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Util\Colors.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Logging\Loggr.cs" />
   </ItemGroup>
 </Project>

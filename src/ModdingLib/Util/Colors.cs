@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 
-namespace SharedLib
+namespace AnN3x.ModdingLib
 {
     internal class Colors
     {

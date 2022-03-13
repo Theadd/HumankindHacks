@@ -7,20 +7,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RealtimeMode", "RealtimeMod
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "HumankindLib", "HumankindLib\HumankindLib.shproj", "{38F176D2-8014-46A9-AD2E-80AA014E49C0}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "SharedLib", "SharedLib\SharedLib.shproj", "{260F128A-7A49-404C-9667-9E2178623D9E}"
-EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "AnN3xLib", "AnN3xLib\AnN3xLib.shproj", "{6F926D1B-5AE3-4A29-99B1-7429EC4B6DFA}"
-EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "AnN3xHumankindLib", "AnN3xHumankindLib\AnN3xHumankindLib.shproj", "{C71C3635-1254-4087-86F5-4B855903DED4}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "ModdingLib", "ModdingLib\ModdingLib.shproj", "{EDAD1558-652A-4E32-A7CA-28468FBA4941}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		SharedLib\SharedLib.projitems*{260f128a-7a49-404c-9667-9e2178623d9e}*SharedItemsImports = 13
 		HumankindLib\HumankindLib.projitems*{38f176d2-8014-46a9-ad2e-80aa014e49c0}*SharedItemsImports = 13
-		AnN3xLib\AnN3xLib.projitems*{6f926d1b-5ae3-4a29-99b1-7429ec4b6dfa}*SharedItemsImports = 13
-		AnN3xHumankindLib\AnN3xHumankindLib.projitems*{c71c3635-1254-4087-86f5-4b855903ded4}*SharedItemsImports = 13
-		HumankindLib\HumankindLib.projitems*{d15df3dc-769f-428b-a930-982cd1851d36}*SharedItemsImports = 5
-		SharedLib\SharedLib.projitems*{d15df3dc-769f-428b-a930-982cd1851d36}*SharedItemsImports = 5
+		ModdingLib\ModdingLib.projitems*{edad1558-652a-4e32-a7ca-28468fba4941}*SharedItemsImports = 13
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

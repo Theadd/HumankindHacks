@@ -6,10 +6,12 @@
     <SharedGUID>38f176d2-8014-46a9-ad2e-80aa014e49c0</SharedGUID>
   </PropertyGroup>
   <PropertyGroup Label="Configuration">
-    <Import_RootNamespace>HumankindLib</Import_RootNamespace>
+    <Import_RootNamespace>AnN3x.HumankindLib</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)Utils\Colors.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Utils\Loggr.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Util\PrintableValues.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Services\" />
   </ItemGroup>
 </Project>

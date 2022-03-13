@@ -1,42 +1,46 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net471</TargetFramework>
-	<Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
-	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <AssemblyName>RealtimeMode</AssemblyName>
-    <Description>Humankind Game Mod: Real-Time Strategy</Description>
-    <Version>1.0.0</Version>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <LangVersion>10.0</LangVersion>
+	<PropertyGroup>
+		<TargetFramework>net35</TargetFramework>
+		<Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
+		<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+		<AssemblyName>AnN3x.Humankind.RealtimeMode</AssemblyName>
+		<Description>Humankind Game Mod: Real-Time Strategy</Description>
+		<Version>1.0.0</Version>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<LangVersion>10.0</LangVersion>
 	
-	<OutputType>Library</OutputType>
-	<!--<AppDesignerFolder>Properties</AppDesignerFolder>-->
-	<Deterministic>true</Deterministic>
-	<DefineConstants>NOLOGTODISK</DefineConstants>
-	<IsCpp>false</IsCpp>
-	<DebugSymbols>false</DebugSymbols>
-	<DebugType>portable</DebugType>
-	<Optimize>true</Optimize>
-	<ErrorReport>none</ErrorReport>
-	<WarningLevel>4</WarningLevel>
-	<PlatformTarget>x64</PlatformTarget>
-	<Prefer32Bit>false</Prefer32Bit>
-	<RootNamespace>AnN3x.RealtimeMode</RootNamespace>
-	<Nullable>enable</Nullable>
-	<ImplicitUsings>enable</ImplicitUsings>
-	<PackageLicenseExpression>Unlicense</PackageLicenseExpression>
-	<ProduceReferenceAssembly>False</ProduceReferenceAssembly>
-	<Platforms>AnyCPU</Platforms>
-	<Configurations>Debug;Release;Release_net35</Configurations>
-  </PropertyGroup>
+		<OutputType>Library</OutputType>
+		<!--<AppDesignerFolder>Properties</AppDesignerFolder>-->
+		<Deterministic>true</Deterministic>
+		<DefineConstants>NOLOGTODISK</DefineConstants>
+		<IsCpp>false</IsCpp>
+		<DebugSymbols>false</DebugSymbols>
+		<DebugType>portable</DebugType>
+		<Optimize>true</Optimize>
+		<ErrorReport>none</ErrorReport>
+		<WarningLevel>4</WarningLevel>
+		<PlatformTarget>x64</PlatformTarget>
+		<Prefer32Bit>false</Prefer32Bit>
+		<RootNamespace>AnN3x.RealtimeMode</RootNamespace>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>disable</ImplicitUsings>
+		<PackageLicenseExpression>Unlicense</PackageLicenseExpression>
+		<ProduceReferenceAssembly>False</ProduceReferenceAssembly>
+		<Platforms>AnyCPU</Platforms>
+		<Configurations>Debug;Release;Release_net35</Configurations>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<NoWarn>$(NoWarn);CS1591</NoWarn>
+	</PropertyGroup>
   
 	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-		<TargetFramework>net471</TargetFramework>
-		<!--<TargetFrameworkVersion>v3.5</TargetFrameworkVersion>-->
+		<!--<TargetFramework>net471</TargetFramework>-->
+		<TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
 		<OutputPath>..\..\Release\RealtimeMode\</OutputPath>
 		<DefineConstants>MONO</DefineConstants>
-		<AssemblyName>AnN3x.Humankind.RealtimeMode</AssemblyName>
+		
 		<Prefer32Bit>false</Prefer32Bit>
 		<IsCpp>false</IsCpp>
 		<DocumentationFile>..\..\Release\RealtimeMode\AnN3x.Humankind.RealtimeMode.xml</DocumentationFile>
@@ -47,11 +51,12 @@
 		<TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
 		<OutputPath>..\..\Release\RealtimeMode\</OutputPath>
 		<DefineConstants>MONO;NET35</DefineConstants>
-		<AssemblyName>AnN3x.Humankind.RealtimeMode</AssemblyName>
+		
 		<Prefer32Bit>false</Prefer32Bit>
 		<IsCpp>false</IsCpp>
 		<DocumentationFile>..\..\Release\RealtimeMode\AnN3x.Humankind.RealtimeMode.xml</DocumentationFile>
 	</PropertyGroup>
+
 
   <ItemGroup>
     <PackageReference Include="BepInEx.Analyzers" Version="1.0.8" PrivateAssets="all" />
@@ -67,8 +72,19 @@
   <ItemGroup Condition="'$(TargetFramework.TrimEnd(`0123456789`))' == 'net'">
     <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.2" PrivateAssets="all" />
   </ItemGroup>
-  
-  <Import Project="..\SharedLib\SharedLib.projitems" Label="Shared" />
-  
-  <Import Project="..\HumankindLib\HumankindLib.projitems" Label="Shared" />
+	
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+		<Message Text=" " />
+		<Message Importance="high" Text="[HUMANKIND_GAME_PATH]" />
+		<Message Importance="high" Text="    $(HUMANKIND_GAME_PATH)" />
+		<Message Text=" " />
+	</Target>
+
+	<Target Name="PostBuildCopyPlugin" AfterTargets="PostBuild" Condition="'$(HUMANKIND_GAME_PATH)' != ''">
+		<ItemGroup>
+			<FilesToCopy Include="$(TargetPath)"/>
+		</ItemGroup>
+		<Copy SourceFiles="@(FilesToCopy)" DestinationFolder="$(HUMANKIND_GAME_PATH)\BepInEx\scripts\" />
+	</Target>
+	
 </Project>

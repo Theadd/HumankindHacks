@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Text;
 using System.Runtime.CompilerServices;
 
-namespace SharedLib
+namespace AnN3x.ModdingLib
 {
     /// <summary>
     ///     A static logger with color support, only for printing to BepInEx's console window.
@@ -21,6 +21,8 @@ namespace SharedLib
         private static PropertyInfo _consoleStream;
         private static MethodInfo _setConsoleColor;
         private static Type _consoleManager;
+
+        public static bool WriteLogToDisk { get; set; } = false;
 
         /// <summary>
         ///     Sets or gets whether the output to console of internal calls to <c>Loggr.LogInfo</c>, <c>Loggr.LogWarning</c>,
@@ -53,13 +55,14 @@ namespace SharedLib
             _LogEx(message, defaultColor, appendNewLine);
         }
 
-        public static void Log(Exception ex,
+        // TODO
+        /*public static void Log(Exception ex,
             [CallerLineNumber] int lineNumber = 0,
             [CallerMemberName] string caller = null)
         {
             _LogEx(ex.ToString(), ConsoleColor.Red, true);
             _LogEx("[IN " + caller + " @ " + lineNumber + "]", ConsoleColor.Red, true);
-        }
+        }*/
 
         public static void Log(string message) => Log(message, ConsoleColor.White);
 
@@ -148,10 +151,14 @@ namespace SharedLib
                     if (!lastWasMatch)
                     {
                         writer.Write("%" + text);
+                        if (WriteLogToDisk)
+                            WriteToDisk("%" + text);
                     }
                     else
                     {
                         writer.Write(text);
+                        if (WriteLogToDisk)
+                            WriteToDisk(text);
                     }
                 }
 
@@ -159,9 +166,23 @@ namespace SharedLib
             }
 
             if (appendNewLine)
+            {
                 writer.Write(Environment.NewLine);
+                if (WriteLogToDisk)
+                    WriteToDisk(Environment.NewLine);
+            }
 
             _setConsoleColor.Invoke(null, new object[] { ConsoleColor.Gray });
+        }
+
+        private static void WriteToDisk(string message)
+        {
+            if (BepInEx.Logging.Logger.Listeners.FirstOrDefault(l =>
+                    l is BepInEx.Logging.DiskLogListener) is
+                BepInEx.Logging.DiskLogListener diskLogger)
+            {
+                diskLogger.LogWriter.Write(message);
+            }
         }
     }
 }
