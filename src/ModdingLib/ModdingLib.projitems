@@ -10,6 +10,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Logging\CommonValueParser.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Logging\EnumValueParser.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Logging\IPrintableValueParser.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Logging\PrintableObject.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Logging\PrintableValue.cs" />
