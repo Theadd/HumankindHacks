@@ -478,3 +478,4 @@ fabric.properties
 # CUSTOM
 
 Directory.Build.props
+.idea/
