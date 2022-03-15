@@ -8,8 +8,8 @@ namespace AnN3x.RealtimeMode
 
         public static void Setup()
         {
-            Loggr.Enabled = !FeatureFlags.QuietMode;
-            Loggr.WriteLogToDisk = FeatureFlags.WriteLogToDisk;
+            Loggr.Enabled = !Config.QuietMode;
+            Loggr.WriteLogToDisk = Config.WriteLogToDisk;
 
             AnN3x.ModdingLib.Logging.PrintableValue.ValueParsers.Add(new HumankindPrintableValueParser());
 

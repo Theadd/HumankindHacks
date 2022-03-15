@@ -1,6 +1,6 @@
 ﻿namespace AnN3x.RealtimeMode
 {
-    internal class FeatureFlags
+    internal class Config
     {
         /// <summary>
         /// Disables AnN3x.ModdingLib.Loggr logging to console/disk features. 
@@ -23,6 +23,8 @@
             public static bool Enabled = true;
             public static bool SkipOneTurn = true;
             public static bool OnAllEmpires = true;
+            public static int LoopIterationsPerCollectionOfEmpires = 5;
+            public static float LoopInterval = .1f;
         }
     }
 }

@@ -9,6 +9,9 @@
     <Import_RootNamespace>AnN3x.HumankindLib</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)HumankindGame\HumankindGame.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Reflection\R.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Reflection\R.Fields.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Util\HumankindPrintableValueParser.cs" />
   </ItemGroup>
   <ItemGroup>
