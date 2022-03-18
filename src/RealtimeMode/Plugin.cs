@@ -31,6 +31,7 @@ namespace AnN3x.RealtimeMode
         private void OnDestroy()
         {
             RealtimeModeGameObject.SetActive(false);
+            Initializer.Unload();
             Destroy(RealtimeModeComponentInstance);
             Destroy(RealtimeModeGameObject);
             Loggr.Log($"{PluginInfo.PLUGIN_GUID} successfully unloaded.", System.ConsoleColor.Gray);

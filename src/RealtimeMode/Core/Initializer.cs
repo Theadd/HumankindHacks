@@ -12,8 +12,15 @@ namespace AnN3x.RealtimeMode
             Loggr.WriteLogToDisk = Config.WriteLogToDisk;
 
             AnN3x.ModdingLib.Logging.PrintableValue.ValueParsers.Add(new HumankindPrintableValueParser());
+            
+            HumankindGame.Initialize();
 
             Loggr.Log("SETUP DONE", System.ConsoleColor.DarkCyan);
+        }
+        
+        public static void Unload()
+        {
+            HumankindGame.Unload();
         }
     }
 }
