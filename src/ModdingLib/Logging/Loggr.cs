@@ -37,15 +37,14 @@ namespace AnN3x.ModdingLib
 
             _LogEx(message, defaultColor, appendNewLine);
         }
-
-        // TODO
-        /*public static void Log(Exception ex,
+        
+        public static void Log(Exception ex,
             [CallerLineNumber] int lineNumber = 0,
             [CallerMemberName] string caller = null)
         {
             _LogEx(ex.ToString(), ConsoleColor.Red, true);
             _LogEx("[IN " + caller + " @ " + lineNumber + "]", ConsoleColor.Red, true);
-        }*/
+        }
 
         public static void Log(string message) => Log(message, ConsoleColor.White);
 
@@ -74,13 +73,22 @@ namespace AnN3x.ModdingLib
             }).ToString(), defaultColor, true);
         }
 
-        private static void _Log(string message, ConsoleColor color)
+        public static void Debug(string message,
+            [CallerLineNumber] int lineNumber = 0,
+            [CallerMemberName] string caller = null)
+        {
+            var now = DateTime.Now;
+            _Log($"[{caller}:{lineNumber} @ {now.Second}.{now.Millisecond}s] ", ConsoleColor.Gray, false);
+            _Log(message, ConsoleColor.Yellow);
+        }
+
+        private static void _Log(string message, ConsoleColor color, bool appendNewLine = true)
         {
             if (!_initialized)
                 Initialize();
 
             _setConsoleColor.Invoke(null, new object[] { color });
-            ((TextWriter)_consoleStream.GetValue(_consoleManager, null)).Write(message + Environment.NewLine);
+            ((TextWriter)_consoleStream.GetValue(_consoleManager, null)).Write(appendNewLine ? message + Environment.NewLine : message);
             _setConsoleColor.Invoke(null, new object[] { ConsoleColor.Gray });
         }
 

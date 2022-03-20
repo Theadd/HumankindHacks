@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using AnN3x.HumankindLib;
 using AnN3x.ModdingLib;
 using AnN3x.RealtimeMode.Armies;
 using UnityEngine;
@@ -10,7 +11,7 @@ public class RealtimeModeComponent : MonoBehaviour
 {
     private void OnEnable()
     {
-        Loggr.Log("STARTING Loop() COROUTINE", ConsoleColor.Magenta);
+        Loggr.Log("STARTING Loop() COROUTINE @ RealtimeModeComponent", ConsoleColor.Magenta);
         StartCoroutine(Loop());
     }
 
@@ -25,7 +26,8 @@ public class RealtimeModeComponent : MonoBehaviour
         for(;;)
         {
             yield return new WaitForSeconds(Config.EndlessMoving.LoopInterval);
-            ArmyController.Run();
+            if (HumankindGame.IsInGame)
+                ArmyController.Run();
         }
     }
 }

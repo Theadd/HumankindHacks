@@ -14,6 +14,7 @@ public partial class HumankindGame
 {
     public static bool IsInGame => View == ViewType.InGame && GameState == GameChangeAction.Started;
     public static bool IsOutGame => View == ViewType.OutGame && GameState == GameChangeAction.Shutdown;
+    public static bool IsLoadingGame => View == ViewType.Loading && GameState is GameChangeAction.Starting or GameChangeAction.Started;
     
     public static IAIPlayer[] GetIAIPlayers() => 
         (IAIPlayer[]) R.AIPlayerByEmpireIndex.GetValue(Sandbox.AIController);

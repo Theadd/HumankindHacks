@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Collections;
 using BepInEx;
 using AnN3x.ModdingLib;
 using UnityEngine;
@@ -10,22 +10,34 @@ namespace AnN3x.RealtimeMode
     {
         public static GameObject RealtimeModeGameObject { get; private set; }
         public static RealtimeModeComponent RealtimeModeComponentInstance { get; private set; }
+        // public static Plugin Instance { get; private set; }
 
         private void Awake()
         {
-            Initializer.Setup();
-
+            // Instance = this;
             RealtimeModeGameObject = new GameObject("RealtimeMode");
             RealtimeModeGameObject.transform.parent = gameObject.transform;
             RealtimeModeGameObject.SetActive(false);
-            RealtimeModeComponentInstance = RealtimeModeGameObject.AddComponent<RealtimeModeComponent>();
-
-            Loggr.Log($"{PluginInfo.PLUGIN_GUID} successfully loaded.", System.ConsoleColor.Gray);
         }
 
-        private void Start()
+        IEnumerator Start()
         {
-            RealtimeModeGameObject.SetActive(true);
+            Initializer.Setup();
+
+            Loggr.Debug("BEGIN INITIALIZING...");
+            
+            while(!Initializer.Initialize())
+            {
+                yield return new WaitForSeconds(.1f);
+                Loggr.Debug("...");
+            }
+
+            Loggr.Debug("END INITIALIZING...");
+            
+            RealtimeModeComponentInstance = RealtimeModeGameObject.AddComponent<RealtimeModeComponent>();
+            // RealtimeModeGameObject.SetActive(true);
+            
+            Loggr.Debug($"{PluginInfo.PLUGIN_GUID} successfully loaded.");
         }
 
         private void OnDestroy()
@@ -34,7 +46,7 @@ namespace AnN3x.RealtimeMode
             Initializer.Unload();
             Destroy(RealtimeModeComponentInstance);
             Destroy(RealtimeModeGameObject);
-            Loggr.Log($"{PluginInfo.PLUGIN_GUID} successfully unloaded.", System.ConsoleColor.Gray);
+            Loggr.Debug($"{PluginInfo.PLUGIN_GUID} successfully unloaded.");
         }
     }
 }

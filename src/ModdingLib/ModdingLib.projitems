@@ -14,7 +14,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Logging\IPrintableValueParser.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Logging\PrintableObject.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Logging\PrintableValue.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Util\Colorable.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Util\Colors.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Logging\Loggr.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Util\ColorsEx.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Util\Invokable.cs" />
   </ItemGroup>
 </Project>

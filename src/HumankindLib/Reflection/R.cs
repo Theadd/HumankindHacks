@@ -41,4 +41,25 @@ public partial class R
     /// <typeparam name="T">The type to search the method in.</typeparam>
     /// <returns><c>MethodInfo</c></returns>
     public static MethodInfo GetMethod<T>(string methodName) => typeof(T).GetMethod(methodName, Flags);
+    
+    public static Object GetPropValue(Object obj, String name) {
+        foreach (String part in name.Split('.')) {
+            if (obj == null) { return null; }
+
+            Type type = obj.GetType();
+            PropertyInfo info = type.GetProperty(part, R.Flags);
+            if (info == null) { return null; }
+
+            obj = info.GetValue(obj, null);
+        }
+        return obj;
+    }
+
+    public static T GetPropValue<T>(Object obj, String name) {
+        Object retval = GetPropValue(obj, name);
+        if (retval == null) { return default(T); }
+
+        // throws InvalidCastException if types are incompatible
+        return (T) retval;
+    }
 }
