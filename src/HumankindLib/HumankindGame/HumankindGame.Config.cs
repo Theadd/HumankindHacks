@@ -8,19 +8,20 @@ namespace AnN3x.HumankindLib;
 
 public partial class HumankindGame
 {
-
     internal static void Initialize()
     {
-        if ((ViewService = Services.GetService<IViewService>()) is null) 
+        if ((ViewService = Services.GetService<IViewService>()) is null)
             throw new NullReferenceException(nameof(ViewService));
-            
-        ViewService.ViewChange += OnViewChanged;
-        ApplyViewType(ViewService.View);
 
-        if ((GameService = Services.GetService<Amplitude.Framework.Game.IGameService>()) is null) 
+        ViewService.ViewChange += OnViewChanged;
+        if (ViewService.View is not null)
+            ApplyViewType(ViewService.View);
+
+        if ((GameService = Services.GetService<Amplitude.Framework.Game.IGameService>()) is null)
             throw new NullReferenceException(nameof(GameService));
 
-        GameService.GameChange += new EventHandler<Amplitude.Framework.Game.GameChangeEventArgs>(OnGameChanged);
+        GameService.GameChange +=
+            new EventHandler<Amplitude.Framework.Game.GameChangeEventArgs>(OnGameChanged);
         try
         {
             if (Amplitude.Mercury.Presentation.Presentation.HasBeenStarted)
@@ -30,14 +31,15 @@ public partial class HumankindGame
         {
             Loggr.Log(e);
         }
-        
     }
 
     internal static void Unload()
     {
-        if (ViewService is not null) 
+        if (ViewService is not null)
             ViewService.ViewChange -= OnViewChanged;
 
-        if (GameService is not null) GameService.GameChange -= new EventHandler<Amplitude.Framework.Game.GameChangeEventArgs>(OnGameChanged);
+        if (GameService is not null)
+            GameService.GameChange -=
+                new EventHandler<Amplitude.Framework.Game.GameChangeEventArgs>(OnGameChanged);
     }
 }

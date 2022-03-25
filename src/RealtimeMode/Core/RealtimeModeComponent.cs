@@ -23,10 +23,10 @@ public class RealtimeModeComponent : MonoBehaviour
 
     IEnumerator Loop()
     {
-        for(;;)
+        for (;;)
         {
             yield return new WaitForSeconds(Config.EndlessMoving.LoopInterval);
-            if (HumankindGame.IsInGame)
+            if (HumankindGame.IsInGame && Config.EndlessMoving.Enabled)
                 ArmyController.Run();
         }
     }

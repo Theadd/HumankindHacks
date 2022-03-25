@@ -10,21 +10,35 @@ public partial class ModalMessage
         "Show advanced settings.",
         () => true,
         new StaticString("OptionsButton"),
-        true);
+        false);
 
+    private static readonly MessageBoxButton.Data StartButton = new(
+        "Start",
+        "",
+        () => true,
+        new StaticString("StartButton"),
+        false);
+    
+    private static readonly MessageBoxButton.Data StopButton = new(
+        "Stop",
+        "",
+        () => true,
+        new StaticString("StopButton"),
+        false);
+    
     private static readonly MessageBoxButton.Data YesButton = new(
         "Yes",
         "",
         () => true,
         new StaticString("YesButton"),
-        true);
+        false);
 
     private static readonly MessageBoxButton.Data NoButton = new(
         "No",
         "",
         () => true,
         new StaticString("NoButton"),
-        true);
+        false);
 
     private static readonly MessageBoxButton.Data CancelButton = new(
         "Cancel",
@@ -32,4 +46,6 @@ public partial class ModalMessage
         () => true,
         new StaticString("CancelButton"),
         true) { IsRed = true };
+
+    private static readonly MessageBoxButton.Data NoneButton = new(MessageBox.Choice.None, null);
 }

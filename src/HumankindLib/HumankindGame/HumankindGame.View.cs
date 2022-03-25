@@ -25,7 +25,9 @@ public partial class HumankindGame
     private static ViewType View { get; set; } = ViewType.Loading;
     private static GameChangeAction GameState { get; set; } = GameChangeAction.Shutdown;
 
-    private static void OnViewChanged(object sender, ViewChangedEventArgs eventArgs) => ApplyViewType(eventArgs.View);
+    private static void OnViewChanged(object sender, ViewChangedEventArgs eventArgs) =>
+        ApplyViewType(eventArgs.View);
+
     private static void OnGameChanged(object sender, GameChangeEventArgs e) => ApplyGameState(e.Action);
 
     private static void ApplyViewType(IView view)
@@ -38,6 +40,7 @@ public partial class HumankindGame
                 OutGameView => ViewType.OutGame,
                 EmptyView => ViewType.Loading,
                 MapEditorView => ViewType.MapEditor,
+                Amplitude.Framework.Presentation.View => ViewType.Loading,
                 _ => throw new ArgumentOutOfRangeException(nameof(view))
             };
 
@@ -58,6 +61,7 @@ public partial class HumankindGame
 
     private static void OnGameViewChanged(ChangeType changeType)
     {
-        Loggr.Debug($"#[{changeType.ToString()}] GameState = {GameState.ToString()}, View = (ViewType: {View.ToString()}, HasFocus: {ViewService.View.HasFocus}, IsActive: {ViewService.View.IsActive})");
+        Loggr.Debug(
+            $"#[{changeType.ToString()}] GameState = {GameState.ToString()}, View = (ViewType: {View.ToString()}, HasFocus: {ViewService.View.HasFocus}, IsActive: {ViewService.View.IsActive})");
     }
 }

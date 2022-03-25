@@ -1,34 +1,52 @@
 ﻿using System;
 using Amplitude.Mercury.UI;
+using Amplitude.UI;
 using AnN3x.ModdingLib;
+
+// ReSharper disable StaticMemberInitializerReferesToMemberBelow
 
 namespace AnN3x.RealtimeMode.UI;
 
 public partial class ModalMessage
 {
-    private static int _count;
-    private static int Foo() => _count++;
+    public static int EnqueuedScreens { get; private set; } = 0;
 
-    private static void TestMe()
+    private static readonly Message BaseMessage = new Message()
     {
-        Invokable<int> num = (Func<int>)(() => 5);
-        Invokable<int> num2 = (Invokable<int>) Foo;
-    }
+        Title = "Realtime Mode Hack",
+        OnMessageClosed = (Action) (() =>
+        {
+            if (--EnqueuedScreens >= 1) return;
 
-    private static readonly MessageModalWindow.Message BaseScreen = new Message()
-    {
-        Title = "Message",
-        OnMessageClosed = (Action)RollbackUIStyle,
-        BlackBackground = new Invokable<bool>(() => false),
-        TestInt = (Func<int>)Foo
-        // TestInt = Foo,
-        // BlackBackground = () => false,
+            CloseMessageBox();
+            CloseModalWindow();
+            RollbackUIStyle();
+        }),
+        BlackBackground = false,
+        UIMapper = Mapper
     };
 
-    private static MessageModalWindow.Message MainScreen => new Message(BaseScreen)
+    private static Message MainScreen = new(BaseMessage)
     {
-        Description = (Func<string>) (() => $"Some description here, count = {_count}."),
-        Buttons = new [] { OptionsButton, YesButton, CancelButton },
-        UIMapper = Mapper
+        Description = Strings.MainScreenDescription,
+        Buttons = new Invokable<MessageBoxButton.Data[]>(() => Config.RealtimeMode.Enabled
+            ? new MessageBoxButton.Data[]
+            {
+                new ModalButton(OptionsButton) { Action = () => ShowScreen(SecondScreen) },
+                new ModalButton(StopButton) { Action = () => Config.RealtimeMode.Enabled = false },
+                CancelButton
+            }
+            : new MessageBoxButton.Data[]
+            {
+                new ModalButton(OptionsButton) { Action = () => ShowScreen(SecondScreen) },
+                new ModalButton(StartButton) { Action = () => Config.RealtimeMode.Enabled = true },
+                CancelButton
+            })
+    };
+
+    private static Message SecondScreen = new(BaseMessage)
+    {
+        Description = "Some other description here for the <b>second screen</b>.",
+        Buttons = new[] { YesButton, NoButton, CancelButton }
     };
 }

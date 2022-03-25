@@ -14,59 +14,11 @@ namespace AnN3x.RealtimeMode.Armies;
 
 public class ArmyController
 {
-    
-    /*private void SyncMovingArmies()
-    {
-        for (var i = MovingArmies.Count() - 1; i >= 0; i--)
-        {
-            var movingArmy = MovingArmies[i];
-
-            if (ArmyUtils.ArmyMovementRatio(movingArmy.Army) <= 0.5f)
-                Amplitude.Mercury.Sandbox.SandboxManager.PostOrder(movingArmy.Order, movingArmy.EmpireIndex);
-            else if (!ArmyUtils.IsRunning(movingArmy.Army))
-            {
-                movingArmy.SkipOneTurn();
-                MovingArmies.Remove(movingArmy);
-            }
-        }
-    }
-    
-    public void AddToEndlessMovingArmies(Army army)
-    {
-        if (!MovingArmies.Any(item => item.Army.EntityGUID == army.EntityGUID))
-        {
-            if (IsArmySelectedInGame(army) && TryGetArmyCursor(out ArmyCursor armyCursor))
-            {
-                if (army.EntityGUID == armyCursor.EntityGUID && ArmyUtils.IsRunning(army))
-                {
-                    if (armyCursor.SelectedUnitCount != army.Units.Length)
-                        armyCursor.SelectAll();
-
-                    EndlessMovingArmy movingArmy = new EndlessMovingArmy() {
-                        Order = new OrderChangeMovementRatio(
-                            armyCursor.EntityGUID, 
-                            armyCursor.SelectedUnits.Select(guid => guid).ToArray(), 
-                            1.0f
-                        ),
-                        EmpireIndex = (int) Snapshots.ArmyCursorSnapshot.PresentationData.EmpireIndex,
-                        Army = army
-                    };
-                    MovingArmies.Add(movingArmy);
-                }
-            }
-        }
-    }
-
-    public bool IsArmySelectedInGame(Army army) => army.EntityGUID == ArmyCursorEntityGUID;
-
-    public static bool TryGetArmyCursor(out ArmyCursor armyCursor) => (
-        (armyCursor = Presentation.PresentationCursorController.CurrentCursor as ArmyCursor) != null 
-        && Snapshots.ArmyCursorSnapshot != null);
-    */
-
     public static List<int> EmpireIndicesLeft { get; private set; } = new List<int>();
     public static int TakeUpTo { get; private set; }
     public static IEnumerable<Empire> Empires { get; private set; } = new List<Empire>();
+    public static int SkippedCyclesToMinor { get; private set; } = 0;
+    public static bool IsProcessingMinorEmpires { get; private set; } = false;
 
     private static void Reset()
     {
@@ -78,11 +30,29 @@ public class ArmyController
         }
         else
         {
+            if (SkippedCyclesToMinor >= Config.EndlessMoving.CyclesToSkipBeforeProcessingMinorEmpires)
+            {
+                IsProcessingMinorEmpires = true;
+                SkippedCyclesToMinor = 0;
+            }
+            else
+            {
+                IsProcessingMinorEmpires = false;
+                SkippedCyclesToMinor++;
+            }
+
             EmpireIndicesLeft = Empires.Select((e, i) => i).ToList();
-            TakeUpTo = (int)Mathf.Ceil((float)EmpireIndicesLeft.Count /
-                                  (float)Config.EndlessMoving.LoopIterationsPerCollectionOfEmpires);
+            TakeUpTo = (int) Mathf.Ceil((float) EmpireIndicesLeft.Count /
+                                        (float) Config.EndlessMoving.LoopIterationsPerCollectionOfEmpires);
         }
+
         EmpireIndicesLeft.Shuffle();
+        var now = DateTime.Now;
+        Loggr.Log(
+            @$"%RED%[ARMY CONTROLLER - RESET CYCLE]%DEFAULT% @ {now.Second}.{now.Millisecond}s {(IsProcessingMinorEmpires ? "PROCESSING MINOR EMPIRES" : "")}
+    Empires = {EmpireIndicesLeft.Count}, MajorEmpires = {Amplitude.Mercury.Sandbox.Sandbox.NumberOfMajorEmpires}, TakeUpTo = {TakeUpTo}
+    [{string.Join(", ", EmpireIndicesLeft.Where(i => IsProcessingMinorEmpires || (!IsProcessingMinorEmpires && i < Amplitude.Mercury.Sandbox.Sandbox.NumberOfMajorEmpires)).Select(i => "" + i))}]",
+            ConsoleColor.Yellow);
     }
 
     public static void Run()
@@ -92,9 +62,13 @@ public class ArmyController
 
         var someEmpires = EmpireIndicesLeft.Take(TakeUpTo);
         EmpireIndicesLeft = EmpireIndicesLeft.Skip(TakeUpTo).ToList();
-        
+
         foreach (var empireIndex in someEmpires)
         {
+            if (!IsProcessingMinorEmpires &&
+                empireIndex < Amplitude.Mercury.Sandbox.Sandbox.NumberOfMajorEmpires)
+                continue;
+
             try
             {
                 var armies = Empires.ElementAt(empireIndex).Armies;
@@ -116,31 +90,40 @@ public class ArmyController
 
     private static void KeepArmiesMoving(IEnumerable<Army> armies)
     {
+        // TODO: if (army.EmpireIndex < Amplitude.Mercury.Sandbox.Sandbox.NumberOfMajorEmpires)
         foreach (var army in armies)
         {
-            if (ArmyMovementRatio(army) < 1.0f)
+            if (IsIdle(army))
             {
-                Amplitude.Mercury.Sandbox.SandboxManager.PostOrder(
-                    new OrderChangeMovementRatio(
-                        army.SimulationEntityGUID,
-                        army.Units.Select(u => (SimulationEntityGUID) u.SimulationEntityGUID).ToArray(),
-                        1.0f
-                    ), army.EmpireIndex);
-            }
-            else if (!IsRunning(army))
-            {
-                if (Config.EndlessMoving.SkipOneTurn)
-                    SkipOneTurn(army);
+                if (GetArmyMovementRatio(army) < .1f)
+                {
+                    SetArmyMovementRatio(army, 1f);
+                }
+                else if (!IsRunning(army))
+                {
+                    if (Config.EndlessMoving.SkipOneTurn)
+                        SkipOneTurn(army);
+                }
             }
         }
     }
-    
-    public static float ArmyMovementRatio(Army army) => (float) army.PathfindContext.MovementRatio;
+
+    public static void SetArmyMovementRatio(Army army, float movementRatio) =>
+        Amplitude.Mercury.Sandbox.SandboxManager.PostOrder(
+            new OrderChangeMovementRatio(
+                army.SimulationEntityGUID,
+                army.Units.Select(u => (SimulationEntityGUID) u.SimulationEntityGUID).ToArray(),
+                movementRatio
+            ), army.EmpireIndex);
+
+    public static float GetArmyMovementRatio(Army army) => (float) army.PathfindContext.MovementRatio;
 
     public static bool IsRunning(Army army) => army.GoToActionStatus == Army.ActionStatus.Running;
-    
-    public static void SkipOneTurn(Army army) => 
-        Amplitude.Mercury.Sandbox.SandboxManager.PostOrder((Order) new OrderChangeEntityAwakeState() {
+    public static bool IsIdle(Army army) => army.State == ArmyState.Idle;
+
+    public static void SkipOneTurn(Army army) =>
+        Amplitude.Mercury.Sandbox.SandboxManager.PostOrder((Order) new OrderChangeEntityAwakeState()
+        {
             EntityGuid = army.SimulationEntityGUID, AwakeState = AwakeState.SkipOneTurn
         }, army.EmpireIndex);
 }
