@@ -1,16 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using Amplitude;
 using Amplitude.Framework;
 using Amplitude.Mercury;
 using Amplitude.Mercury.Interop;
-using Amplitude.Mercury.Simulation;
 using Amplitude.Mercury.UI;
 using AnN3x.HumankindLib;
 using AnN3x.ModdingLib;
 using UnityEngine;
 using Army = Amplitude.Mercury.Interop.AI.Entities.Army;
 using Empire = Amplitude.Mercury.Interop.AI.Entities.Empire;
+using Stopwatch = System.Diagnostics.Stopwatch;
 
 namespace AnN3x.RealtimeMode.Armies;
 
@@ -68,6 +70,32 @@ public class ArmyController
         CycleEnded = false;
     }
 
+    public static void LogElapsedCallTimesToConsole()
+    {
+        Loggr.Log(
+            $"[SETUP: {TimeString(CycleSetupTime)}, START: {TimeString(CycleStartTime)}, STOP: {TimeString(CycleStopTime)}] TotalEmpires: {Empires.Count()}, TakeUpTo: {TakeUpTo}, ControlledByHuman: {string.Join(" ", ControlledByHuman.Select(i => "" + i))}, IsHighResolution: {Stopwatch.IsHighResolution}",
+            ConsoleColor.Cyan);
+        Loggr.Log(
+            $"\tAverageTicks: {DoRunTotalTime / (ulong) DoRunCalls}, TotalTicks: {DoRunTotalTime}, TotalCalls: {DoRunCalls}, Min: {DoRunMinTime}, Max: {DoRunMaxTime}",
+            ConsoleColor.Yellow);
+        DoRunTotalTime = 0L;
+        DoRunMinTime = ulong.MaxValue;
+        DoRunMaxTime = 0L;
+        DoRunCalls = 0;
+    }
+
+    private static string TimeString(DateTime now) => $"{now.Second}.{now.Millisecond}s";
+
+    public static Stopwatch DoRunTimer = new Stopwatch();
+    public static ulong DoRunTotalTime = 0L;
+    public static ulong DoRunMinTime = ulong.MaxValue;
+    public static ulong DoRunMaxTime = 0L;
+    public static int DoRunCalls = 0;
+
+    public static DateTime CycleSetupTime;
+    public static DateTime CycleStartTime;
+    public static DateTime CycleStopTime;
+
     public static void Run()
     {
         if (IdleLoopsLeft-- > 0)
@@ -75,14 +103,33 @@ public class ArmyController
 
         if (!CycleEnded && EmpireIndicesLeft.Count == 0)
         {
+            CycleStopTime = DateTime.Now;
+            LogElapsedCallTimesToConsole();
             CycleEnded = true;
             IdleLoopsLeft = Config.EndlessMoving.IdleLoopsBetweenCycles;
             return;
         }
 
         if (CycleEnded && EmpireIndicesLeft.Count == 0)
+        {
+            CycleSetupTime = DateTime.Now;
             Reset();
+            CycleStartTime = DateTime.Now;
+        }
 
+        DoRunTimer.Reset();
+        DoRunTimer.Start();
+        DoRun();
+        DoRunTimer.Stop();
+        var elapsedMs = (ulong) DoRunTimer.ElapsedTicks;
+        DoRunTotalTime += elapsedMs;
+        DoRunCalls++;
+        DoRunMinTime = DoRunMinTime > elapsedMs ? elapsedMs : DoRunMinTime;
+        DoRunMaxTime = DoRunMaxTime < elapsedMs ? elapsedMs : DoRunMaxTime;
+    }
+
+    private static void DoRun()
+    {
         var someEmpires = EmpireIndicesLeft.Take(TakeUpTo);
         EmpireIndicesLeft = EmpireIndicesLeft.Skip(TakeUpTo).ToList();
 
@@ -171,7 +218,7 @@ public class ArmyController
             var isSecondaryBeingProcessed = !isMajorEmpire || i % 4 == CycleModIndex;
 
             if (!army.IsIdle()) continue;
-            
+
             var isRunning = army.IsRunning();
             var movementRatio = army.GetMovementRatio();
             var movementPointsLeft = (int) (movementRatio * army.MovementSpeed);
