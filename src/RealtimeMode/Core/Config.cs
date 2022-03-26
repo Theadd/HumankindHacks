@@ -28,29 +28,33 @@ namespace AnN3x.RealtimeMode
             public static bool Enabled = true;
             public static bool SkipOneTurn = true;
             public static bool OnAllEmpires = true;
+
             /// <summary>
             /// Determines the number of empires being processed each loop dividing the provided value by
-            /// the number of empires of all types (major/minor). So, the time that takes a full cycle of
+            /// the number of empires of all types (major/minor/etc). So, the time that takes a full cycle of
             /// empires to process will be:
             ///     LoopIterationsPerCollectionOfEmpires * LoopInterval
             /// </summary>
             public static int LoopIterationsPerCollectionOfEmpires = 10;
+
             public static float LoopInterval = .1f;
-            public static int CyclesToSkipBeforeProcessingMinorEmpires = 7;
+            public static int CyclesToSkipBeforeProcessingMinorEmpires = 12;
         }
 
         public static class RealtimeMode
         {
             private static bool _enabled = false;
+
             public static bool Enabled
             {
                 get => _enabled;
                 set
                 {
                     Plugin.RealtimeModeGameObject.SetActive(value);
-                    
+
                     if (Plugin.RealtimeModeGameObject.activeSelf != value)
-                        Loggr.Log(new RuntimeException("Unable to activate the GameObject which controls the Realtime Mode behaviour."));
+                        Loggr.Log(new RuntimeException(
+                            "Unable to activate the GameObject which controls the Realtime Mode behaviour."));
 
                     _enabled = Plugin.RealtimeModeGameObject.activeSelf;
                 }

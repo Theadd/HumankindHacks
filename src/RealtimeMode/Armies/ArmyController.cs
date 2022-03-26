@@ -20,9 +20,18 @@ public class ArmyController
     public static int SkippedCyclesToMinor { get; private set; } = 0;
     public static bool IsProcessingMinorEmpires { get; private set; } = false;
 
+    public static int[] ControlledByHuman { get; private set; }
+    // public static int LastKnownTurn { get; private set; } = 0;
+
     private static void Reset()
     {
         Empires = HumankindGame.GetAllEmpireEntities();
+        ControlledByHuman = HumankindGame.MajorEmpires
+            .Where(e => e.IsControlledByHuman)
+            .Select(h => h.EmpireIndex)
+            .ToArray();
+        // LastKnownTurn = HumankindGame.Turn;
+
         if (!Config.EndlessMoving.OnAllEmpires)
         {
             EmpireIndicesLeft = new List<int>() { HumankindGame.LocalEmpireIndex };
@@ -47,12 +56,6 @@ public class ArmyController
         }
 
         EmpireIndicesLeft.Shuffle();
-        var now = DateTime.Now;
-        Loggr.Log(
-            @$"%RED%[ARMY CONTROLLER - RESET CYCLE]%DEFAULT% @ {now.Second}.{now.Millisecond}s {(IsProcessingMinorEmpires ? "PROCESSING MINOR EMPIRES" : "")}
-    Empires = {EmpireIndicesLeft.Count}, MajorEmpires = {Amplitude.Mercury.Sandbox.Sandbox.NumberOfMajorEmpires}, TakeUpTo = {TakeUpTo}
-    [{string.Join(", ", EmpireIndicesLeft.Where(i => IsProcessingMinorEmpires || (!IsProcessingMinorEmpires && i < Amplitude.Mercury.Sandbox.Sandbox.NumberOfMajorEmpires)).Select(i => "" + i))}]",
-            ConsoleColor.Yellow);
     }
 
     public static void Run()
@@ -66,19 +69,18 @@ public class ArmyController
         foreach (var empireIndex in someEmpires)
         {
             if (!IsProcessingMinorEmpires &&
-                empireIndex < Amplitude.Mercury.Sandbox.Sandbox.NumberOfMajorEmpires)
+                empireIndex >= Amplitude.Mercury.Sandbox.Sandbox.NumberOfMajorEmpires)
                 continue;
 
             try
             {
-                var armies = Empires.ElementAt(empireIndex).Armies;
-                if (armies != null && armies.Length > 0)
+                if (Empires.ElementAt(empireIndex).Armies is { Length: > 0 } armies)
                 {
                     if (armies[0].EmpireIndex != empireIndex)
                         throw new Exception(
                             "Current EmpireIndex and Army's EmpireIndex are expected to be the same.");
 
-                    KeepArmiesMoving(armies);
+                    KeepArmiesMoving(armies, ControlledByHuman.Contains(empireIndex));
                 }
             }
             catch (Exception e)
@@ -88,42 +90,60 @@ public class ArmyController
         }
     }
 
-    private static void KeepArmiesMoving(IEnumerable<Army> armies)
+    private static void KeepArmiesMoving(IEnumerable<Army> armies, bool isControlledByHuman)
     {
-        // TODO: if (army.EmpireIndex < Amplitude.Mercury.Sandbox.Sandbox.NumberOfMajorEmpires)
+        var threshold = isControlledByHuman ? 1f : .2f;
+
         foreach (var army in armies)
         {
-            if (IsIdle(army))
+            if (army.IsIdle())
             {
-                if (GetArmyMovementRatio(army) < .1f)
+                var simulationEntity = army.GetSimulationEntity();
+                var isAwake = (simulationEntity?.GetAwakeState() ?? AwakeState.Sleep) == AwakeState.Awake;
+                var isRunning = army.IsRunning();
+                var movementRatio = army.GetMovementRatio();
+                var otherFlags = isControlledByHuman || (!isRunning);
+
+                if (isAwake && movementRatio < threshold && otherFlags)
                 {
-                    SetArmyMovementRatio(army, 1f);
+                    if (isControlledByHuman)
+                    {
+                        army.SetMovementRatio(1f);
+                    }
+                    else
+                    {
+                        if (IsProcessingMinorEmpires)
+                        {
+                            army.SetMovementRatio(1f);
+                        }
+                        else
+                        {
+                            var hasAdjacentHumanArmies = army.GetAdjacentArmies()
+                                .Any(other => ControlledByHuman.Contains(other.EmpireIndex));
+
+                            if (hasAdjacentHumanArmies && army.GetMovementRatio() > 0)
+                            {
+                                army.SetMovementRatio(0);
+                                Amplitude.Mercury.Sandbox.Sandbox.SimulationEntityRepository
+                                    .SetSynchronizationDirty(
+                                        (ISimulationEntityWithSynchronization) simulationEntity);
+                                Loggr.Log(
+                                    $"LOCKED ARMY OF EMPIRE {army.EmpireIndex} DUE TO ADJACENT HUMAN CONTROLLED ARMY",
+                                    ConsoleColor.Red);
+                            }
+                            else if (!hasAdjacentHumanArmies)
+                            {
+                                army.SetMovementRatio(1f);
+                            }
+                        }
+                    }
                 }
-                else if (!IsRunning(army))
+                else if (!isRunning)
                 {
-                    if (Config.EndlessMoving.SkipOneTurn)
-                        SkipOneTurn(army);
+                    if (Config.EndlessMoving.SkipOneTurn && isAwake)
+                        army.SkipOneTurn();
                 }
             }
         }
     }
-
-    public static void SetArmyMovementRatio(Army army, float movementRatio) =>
-        Amplitude.Mercury.Sandbox.SandboxManager.PostOrder(
-            new OrderChangeMovementRatio(
-                army.SimulationEntityGUID,
-                army.Units.Select(u => (SimulationEntityGUID) u.SimulationEntityGUID).ToArray(),
-                movementRatio
-            ), army.EmpireIndex);
-
-    public static float GetArmyMovementRatio(Army army) => (float) army.PathfindContext.MovementRatio;
-
-    public static bool IsRunning(Army army) => army.GoToActionStatus == Army.ActionStatus.Running;
-    public static bool IsIdle(Army army) => army.State == ArmyState.Idle;
-
-    public static void SkipOneTurn(Army army) =>
-        Amplitude.Mercury.Sandbox.SandboxManager.PostOrder((Order) new OrderChangeEntityAwakeState()
-        {
-            EntityGuid = army.SimulationEntityGUID, AwakeState = AwakeState.SkipOneTurn
-        }, army.EmpireIndex);
 }

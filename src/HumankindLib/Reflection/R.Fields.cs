@@ -13,4 +13,5 @@ public partial class R
     public static readonly FieldInfo ControlledEmpire = GetField<AIPlayer>("controlledEmpire");
     public static readonly FieldInfo AllGameWindows = GetField<WindowsManager>("allGameWindows");
     public static readonly FieldInfo DataUtils = typeof(Utils).GetField("DataUtils", Flags);
+    public static readonly FieldInfo AwakeState = GetField<Amplitude.Mercury.Simulation.Army>("AwakeState");
 }

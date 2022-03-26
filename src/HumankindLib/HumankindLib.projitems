@@ -9,6 +9,7 @@
     <Import_RootNamespace>AnN3x.HumankindLib</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\ArmyEx.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)HumankindGame\HumankindGame.Config.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)HumankindGame\HumankindGame.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)HumankindGame\HumankindGame.Services.cs" />

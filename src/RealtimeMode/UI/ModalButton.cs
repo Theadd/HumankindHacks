@@ -29,9 +29,6 @@ public class ModalButton
 
     public MessageBoxButton.Data ToButtonData()
     {
-        Loggr.Log(
-            $"Preparing ToButtonData...,",
-            ConsoleColor.Red);
         Func<bool> action = () =>
         {
             bool returnValue = true;
@@ -39,16 +36,7 @@ public class ModalButton
             if (InheritOnClickActions)
                 returnValue = OnClick() && returnValue;
 
-            Loggr.Log($"(BEFORE Action.TryInvoke()) EnqueuedScreens = {ModalMessage.EnqueuedScreens}",
-                ConsoleColor.Magenta);
-
-
-            returnValue = Action.TryInvoke() && returnValue;
-
-            Loggr.Log($"(AFTER Action.TryInvoke()) EnqueuedScreens = {ModalMessage.EnqueuedScreens}",
-                ConsoleColor.Magenta);
-
-            return returnValue;
+            return Action.TryInvoke() && returnValue;
         };
 
         var data = new MessageBoxButton.Data()
