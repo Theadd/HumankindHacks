@@ -28,6 +28,7 @@ namespace AnN3x.RealtimeMode
             public static bool Enabled = true;
             public static bool SkipOneTurn = true;
             public static bool OnAllEmpires = true;
+            public static bool IncludeOtherEmpiresControlledByHuman = true;
 
             /// <summary>
             /// Determines the number of empires being processed each loop dividing the provided value by
@@ -38,7 +39,24 @@ namespace AnN3x.RealtimeMode
             public static int LoopIterationsPerCollectionOfEmpires = 10;
 
             public static float LoopInterval = .1f;
+
+            /* Section: Aggressive EndlessMovingArmies */
+
             public static int CyclesToSkipBeforeProcessingMinorEmpires = 12;
+
+            /* END Section */
+
+            /* Section: Standard EndlessMovingArmies */
+
+            /// <summary>
+            /// Loops to skip between full cycles, applies only to Standard EndlessMovingArmies.
+            /// With .1s as LoopInterval, given a value of 20 means a 2s (20 * .1s) wait time between cycles.
+            /// </summary>
+            public static int IdleLoopsBetweenCycles = 20;
+
+            public static int PrimaryCyclesToSkip = 3;
+
+            /* END Section */
         }
 
         public static class RealtimeMode

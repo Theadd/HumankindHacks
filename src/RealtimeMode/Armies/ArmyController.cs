@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Amplitude.Framework;
 using Amplitude.Mercury;
 using Amplitude.Mercury.Interop;
 using Amplitude.Mercury.Simulation;
+using Amplitude.Mercury.UI;
 using AnN3x.HumankindLib;
 using AnN3x.ModdingLib;
 using UnityEngine;
@@ -17,11 +19,13 @@ public class ArmyController
     public static List<int> EmpireIndicesLeft { get; private set; } = new List<int>();
     public static int TakeUpTo { get; private set; }
     public static IEnumerable<Empire> Empires { get; private set; } = new List<Empire>();
-    public static int SkippedCyclesToMinor { get; private set; } = 0;
-    public static bool IsProcessingMinorEmpires { get; private set; } = false;
-
+    public static int PrimarySkippedCycles { get; private set; } = 0;
+    public static bool IsPrimaryBeingProcessed { get; private set; } = false;
     public static int[] ControlledByHuman { get; private set; }
-    // public static int LastKnownTurn { get; private set; } = 0;
+    public static int IdleLoopsLeft { get; private set; } = 0;
+    public static bool CycleEnded { get; private set; } = true;
+    public static bool AreMandatoriesActive { get; private set; } = true;
+    public static int CycleModIndex { get; private set; } = 0;
 
     private static void Reset()
     {
@@ -30,24 +34,29 @@ public class ArmyController
             .Where(e => e.IsControlledByHuman)
             .Select(h => h.EmpireIndex)
             .ToArray();
-        // LastKnownTurn = HumankindGame.Turn;
+        CycleModIndex = (CycleModIndex + 1) % 4;
+
+        if (Services.GetService<IUIService>() is UIManager uiManager)
+            AreMandatoriesActive = uiManager.ActivateMandatories;
 
         if (!Config.EndlessMoving.OnAllEmpires)
         {
-            EmpireIndicesLeft = new List<int>() { HumankindGame.LocalEmpireIndex };
+            EmpireIndicesLeft = Config.EndlessMoving.IncludeOtherEmpiresControlledByHuman
+                ? ControlledByHuman.ToList()
+                : new List<int>() { HumankindGame.LocalEmpireIndex };
             TakeUpTo = 1;
         }
         else
         {
-            if (SkippedCyclesToMinor >= Config.EndlessMoving.CyclesToSkipBeforeProcessingMinorEmpires)
+            if (PrimarySkippedCycles >= Config.EndlessMoving.PrimaryCyclesToSkip)
             {
-                IsProcessingMinorEmpires = true;
-                SkippedCyclesToMinor = 0;
+                IsPrimaryBeingProcessed = true;
+                PrimarySkippedCycles = 0;
             }
             else
             {
-                IsProcessingMinorEmpires = false;
-                SkippedCyclesToMinor++;
+                IsPrimaryBeingProcessed = false;
+                PrimarySkippedCycles++;
             }
 
             EmpireIndicesLeft = Empires.Select((e, i) => i).ToList();
@@ -56,11 +65,22 @@ public class ArmyController
         }
 
         EmpireIndicesLeft.Shuffle();
+        CycleEnded = false;
     }
 
     public static void Run()
     {
-        if (EmpireIndicesLeft.Count == 0)
+        if (IdleLoopsLeft-- > 0)
+            return;
+
+        if (!CycleEnded && EmpireIndicesLeft.Count == 0)
+        {
+            CycleEnded = true;
+            IdleLoopsLeft = Config.EndlessMoving.IdleLoopsBetweenCycles;
+            return;
+        }
+
+        if (CycleEnded && EmpireIndicesLeft.Count == 0)
             Reset();
 
         var someEmpires = EmpireIndicesLeft.Take(TakeUpTo);
@@ -68,7 +88,7 @@ public class ArmyController
 
         foreach (var empireIndex in someEmpires)
         {
-            if (!IsProcessingMinorEmpires &&
+            if (!IsPrimaryBeingProcessed &&
                 empireIndex >= Amplitude.Mercury.Sandbox.Sandbox.NumberOfMajorEmpires)
                 continue;
 
@@ -76,11 +96,14 @@ public class ArmyController
             {
                 if (Empires.ElementAt(empireIndex).Armies is { Length: > 0 } armies)
                 {
-                    if (armies[0].EmpireIndex != empireIndex)
-                        throw new Exception(
-                            "Current EmpireIndex and Army's EmpireIndex are expected to be the same.");
-
-                    KeepArmiesMoving(armies, ControlledByHuman.Contains(empireIndex));
+                    if (ControlledByHuman.Contains(empireIndex))
+                    {
+                        KeepHumanControlledArmiesMoving(armies, empireIndex);
+                    }
+                    else
+                    {
+                        KeepAIControlledArmiesMoving(armies, empireIndex);
+                    }
                 }
             }
             catch (Exception e)
@@ -90,60 +113,87 @@ public class ArmyController
         }
     }
 
-    private static void KeepArmiesMoving(IEnumerable<Army> armies, bool isControlledByHuman)
+    private static void KeepHumanControlledArmiesMoving(IEnumerable<Army> armies, int empireIndex)
     {
-        var threshold = isControlledByHuman ? 1f : .2f;
-
         foreach (var army in armies)
         {
-            if (army.IsIdle())
+            if (!army.IsIdle()) continue;
+
+            var simulationEntity = army.GetSimulationEntity();
+            var isAwake = (simulationEntity?.GetAwakeState() ?? AwakeState.Sleep) == AwakeState.Awake;
+            var isRunning = army.IsRunning();
+            var movementRatio = army.GetMovementRatio();
+            var movementPointsLeft = (int) (movementRatio * army.MovementSpeed);
+
+            if (isAwake)
             {
-                var simulationEntity = army.GetSimulationEntity();
-                var isAwake = (simulationEntity?.GetAwakeState() ?? AwakeState.Sleep) == AwakeState.Awake;
-                var isRunning = army.IsRunning();
-                var movementRatio = army.GetMovementRatio();
-                var otherFlags = isControlledByHuman || (!isRunning);
-
-                if (isAwake && movementRatio < threshold && otherFlags)
+                if (army.AutoExplore)
                 {
-                    if (isControlledByHuman)
+                    if (IsPrimaryBeingProcessed && movementRatio <= 0.5f)
                     {
-                        army.SetMovementRatio(1f);
-                    }
-                    else
-                    {
-                        if (IsProcessingMinorEmpires)
-                        {
-                            army.SetMovementRatio(1f);
-                        }
-                        else
-                        {
-                            var hasAdjacentHumanArmies = army.GetAdjacentArmies()
-                                .Any(other => ControlledByHuman.Contains(other.EmpireIndex));
-
-                            if (hasAdjacentHumanArmies && army.GetMovementRatio() > 0)
-                            {
-                                army.SetMovementRatio(0);
-                                Amplitude.Mercury.Sandbox.Sandbox.SimulationEntityRepository
-                                    .SetSynchronizationDirty(
-                                        (ISimulationEntityWithSynchronization) simulationEntity);
-                                Loggr.Log(
-                                    $"LOCKED ARMY OF EMPIRE {army.EmpireIndex} DUE TO ADJACENT HUMAN CONTROLLED ARMY",
-                                    ConsoleColor.Red);
-                            }
-                            else if (!hasAdjacentHumanArmies)
-                            {
-                                army.SetMovementRatio(1f);
-                            }
-                        }
+                        army.RefillMovementPoints(simulationEntity);
                     }
                 }
-                else if (!isRunning)
+                else
                 {
-                    if (Config.EndlessMoving.SkipOneTurn && isAwake)
+                    // NO AutoExplore
+                    if (army.IsRunningWaitingForFinishTurn())
+                    {
+                        // An active ArmyGoToAction waiting for next turn,
+                        // dealt with the FurtherForEmpire call below
+                        army.RefillMovementPoints(simulationEntity);
+                    }
+                    else if (movementPointsLeft == 0 && isRunning)
+                    {
+                        // An active ArmyGoToAction and no more movement points left, used to avoid armies
+                        // not moving between refilling movement points from WaitingForFinishTurn above.
+                        army.RefillMovementPoints(simulationEntity);
+                    }
+                    else if (!isRunning && AreMandatoriesActive && movementRatio < .99f)
+                    {
                         army.SkipOneTurn();
+                    }
                 }
             }
         }
+
+        Amplitude.Mercury.Sandbox.Sandbox.ActionController.FurtherForEmpire(empireIndex);
+    }
+
+    private static void KeepAIControlledArmiesMoving(IReadOnlyList<Army> armies, int empireIndex)
+    {
+        var isMajorEmpire = empireIndex < Amplitude.Mercury.Sandbox.Sandbox.NumberOfMajorEmpires;
+
+        for (var i = 0; i < armies.Count; i++)
+        {
+            var army = armies[i];
+
+            var isSecondaryBeingProcessed = !isMajorEmpire || i % 4 == CycleModIndex;
+
+            if (!army.IsIdle()) continue;
+            
+            var isRunning = army.IsRunning();
+            var movementRatio = army.GetMovementRatio();
+            var movementPointsLeft = (int) (movementRatio * army.MovementSpeed);
+
+            if (army.IsRunningWaitingForFinishTurn())
+            {
+                // An active ArmyGoToAction waiting for next turn,
+                // dealt with the FurtherForEmpire call below
+                var simulationEntity = army.GetSimulationEntity();
+                if (simulationEntity.IsAwake())
+                    army.RefillMovementPoints(simulationEntity);
+            }
+            else if (movementPointsLeft == 0 && !isRunning && isSecondaryBeingProcessed)
+            {
+                // An active ArmyGoToAction and no more movement points left, used to avoid armies
+                // not moving between refilling movement points from WaitingForFinishTurn above.
+                var simulationEntity = army.GetSimulationEntity();
+                if (simulationEntity.IsAwake())
+                    army.RefillMovementPoints(simulationEntity);
+            }
+        }
+
+        Amplitude.Mercury.Sandbox.Sandbox.ActionController.FurtherForEmpire(empireIndex);
     }
 }
