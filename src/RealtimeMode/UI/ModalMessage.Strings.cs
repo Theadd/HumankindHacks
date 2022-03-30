@@ -32,12 +32,12 @@ Plugin's current {Gold("configuration")} is as follows.
   * {MainScreenOptionsButtonDescription}");
 
         private static string PluginStateString =>
-            "<b>" + (Config.RealtimeMode.Enabled
+            "<b>" + (Config.Runtime.Enabled
                 ? $"<c={Colors.LimeGreen}>Running</c>"
                 : $"<c={Colors.SlateGray}>Inactive</c>") + "</b>";
         
         private static string MainScreenStartStopButtonDescription =>
-            (Config.RealtimeMode.Enabled
+            (Config.Runtime.Enabled
                 ? $"Click the {Keyword("STOP")} button to deactivate all plugin features at once, being back to normal gameplay again."
                 : $"Click the {Keyword("START")} button to activate <b>Endless Moving Armies</b> plugin.");
 

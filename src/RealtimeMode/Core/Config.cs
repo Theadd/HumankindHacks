@@ -30,7 +30,7 @@ internal class Config
         public static bool OnAllEmpires = true;
         public static bool IncludeOtherEmpiresControlledByHuman = true;
         public static bool IsChatNotificationPending = true;
-        
+
         /// <summary>
         /// Determines the number of empires being processed each loop dividing the provided value by
         /// the number of empires of all types (major/minor/etc). So, the time that takes a full cycle of
@@ -60,7 +60,7 @@ internal class Config
         /* END Section */
     }
 
-    public static class RealtimeMode
+    public static class Runtime
     {
         private static bool _enabled = false;
 
@@ -69,17 +69,17 @@ internal class Config
             get => _enabled;
             set
             {
-                Plugin.RealtimeModeGameObject.SetActive(value);
+                Plugin.MovingArmiesGameObject.SetActive(value);
 
-                if (Plugin.RealtimeModeGameObject.activeSelf != value)
+                if (Plugin.MovingArmiesGameObject.activeSelf != value)
                     Loggr.Log(new RuntimeException(
                         "Unable to activate the GameObject which controls the Realtime Mode behaviour."));
 
-                _enabled = Plugin.RealtimeModeGameObject.activeSelf;
+                _enabled = Plugin.MovingArmiesGameObject.activeSelf;
             }
         }
 
-        public static bool EnableInOnlineSessions = false;
+        public static bool EnableInOnlineSessions = true;
 
         public static KeyboardShortcut ShowUIKey { get; set; } =
             new KeyboardShortcut(KeyCode.F1, KeyCode.LeftControl);

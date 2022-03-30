@@ -11,17 +11,15 @@ namespace AnN3x.RealtimeMode
     [BepInPlugin(PluginInfo.PLUGIN_GUID, PluginInfo.PLUGIN_NAME, PluginInfo.PLUGIN_VERSION)]
     public class Plugin : BaseUnityPlugin, IPluginLauncher
     {
-        public static GameObject RealtimeModeGameObject { get; private set; }
-
-        public static RealtimeModeComponent RealtimeModeComponentInstance { get; private set; }
-        // public static Plugin Instance { get; private set; }
+        public static GameObject MovingArmiesGameObject { get; private set; }
+        public static EndlessMovingArmies EndlessMovingArmiesInstance { get; private set; }
 
         private void Awake()
         {
             // Instance = this;
-            RealtimeModeGameObject = new GameObject("RealtimeMode");
-            RealtimeModeGameObject.transform.parent = gameObject.transform;
-            RealtimeModeGameObject.SetActive(false);
+            MovingArmiesGameObject = new GameObject("EndlessMovingArmies");
+            MovingArmiesGameObject.transform.parent = gameObject.transform;
+            MovingArmiesGameObject.SetActive(false);
         }
 
         IEnumerator Start()
@@ -38,7 +36,7 @@ namespace AnN3x.RealtimeMode
 
             Loggr.Debug("END INITIALIZING...");
 
-            RealtimeModeComponentInstance = RealtimeModeGameObject.AddComponent<RealtimeModeComponent>();
+            EndlessMovingArmiesInstance = MovingArmiesGameObject.AddComponent<EndlessMovingArmies>();
             // RealtimeModeGameObject.SetActive(true);
 
             Loggr.Debug($"{PluginInfo.PLUGIN_GUID} successfully loaded.");
@@ -46,7 +44,7 @@ namespace AnN3x.RealtimeMode
 
         private void LateUpdate()
         {
-            if (AnN3x.RealtimeMode.Config.RealtimeMode.ShowUIKey.IsDown())
+            if (AnN3x.RealtimeMode.Config.Runtime.ShowUIKey.IsDown())
             {
                 Loggr.Log("ShowUIKey.IsDown() in Update()", ConsoleColor.Green);
                 Launch();
@@ -55,10 +53,10 @@ namespace AnN3x.RealtimeMode
 
         private void OnDestroy()
         {
-            RealtimeModeGameObject.SetActive(false);
+            MovingArmiesGameObject.SetActive(false);
             Initializer.Unload();
-            Destroy(RealtimeModeComponentInstance);
-            Destroy(RealtimeModeGameObject);
+            Destroy(EndlessMovingArmiesInstance);
+            Destroy(MovingArmiesGameObject);
             Loggr.Debug($"{PluginInfo.PLUGIN_GUID} successfully unloaded.");
         }
 

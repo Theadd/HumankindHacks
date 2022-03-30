@@ -30,17 +30,17 @@ public partial class ModalMessage
     private static Message MainScreen = new(BaseMessage)
     {
         Description = Strings.MainScreenDescription,
-        Buttons = new Invokable<MessageBoxButton.Data[]>(() => Config.RealtimeMode.Enabled
+        Buttons = new Invokable<MessageBoxButton.Data[]>(() => Config.Runtime.Enabled
             ? new MessageBoxButton.Data[]
             {
                 new ModalButton(OptionsButton) { Action = () => ShowScreen(ChooseMovingArmiesModeScreen) },
-                new ModalButton(StopButton) { Action = () => Config.RealtimeMode.Enabled = false },
+                new ModalButton(StopButton) { Action = () => Config.Runtime.Enabled = false },
                 CancelButton
             }
             : new MessageBoxButton.Data[]
             {
                 new ModalButton(OptionsButton) { Action = () => ShowScreen(ChooseMovingArmiesModeScreen) },
-                new ModalButton(StartButton) { Action = () => Config.RealtimeMode.Enabled = true },
+                new ModalButton(StartButton) { Action = () => Config.Runtime.Enabled = true },
                 CancelButton
             })
     };

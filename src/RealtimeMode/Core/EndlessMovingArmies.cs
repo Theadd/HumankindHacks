@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace AnN3x.RealtimeMode;
 
-public class RealtimeModeComponent : MonoBehaviour
+public class EndlessMovingArmies : MonoBehaviour
 {
     private static int LastKnownTurn { get; set; }
     private static bool IsOnlineGame { get; set; }
@@ -59,7 +59,7 @@ public class RealtimeModeComponent : MonoBehaviour
             {
                 var isNewTurn = IsNewTurn();
 
-                if (IsOnlineGame && !Config.RealtimeMode.EnableInOnlineSessions)
+                if (IsOnlineGame && !Config.Runtime.EnableInOnlineSessions)
                     continue;
 
                 if (IsOnlineGame && Config.EndlessMoving.IsChatNotificationPending)
