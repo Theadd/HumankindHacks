@@ -1,7 +1,7 @@
 ﻿using Amplitude;
 using Amplitude.Mercury.UI;
 
-namespace AnN3x.RealtimeMode.UI;
+namespace AnN3x.EndlessMovingArmies.UI;
 
 public partial class ModalMessage
 {

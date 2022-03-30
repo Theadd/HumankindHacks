@@ -3,7 +3,7 @@ using AnN3x.ModdingLib;
 using BepInEx.Configuration;
 using UnityEngine;
 
-namespace AnN3x.RealtimeMode;
+namespace AnN3x.EndlessMovingArmies;
 
 internal class Config
 {

@@ -3,7 +3,7 @@ using Amplitude;
 using Amplitude.Mercury.UI;
 using AnN3x.ModdingLib;
 
-namespace AnN3x.RealtimeMode.UI;
+namespace AnN3x.EndlessMovingArmies.UI;
 
 public class ModalButton
 {

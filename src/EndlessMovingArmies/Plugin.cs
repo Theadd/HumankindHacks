@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections;
+using AnN3x.EndlessMovingArmies.UI;
 using BepInEx;
 using AnN3x.ModdingLib;
 using AnN3x.ModdingLib.Core;
-using AnN3x.RealtimeMode.UI;
 using UnityEngine;
 
-namespace AnN3x.RealtimeMode
+namespace AnN3x.EndlessMovingArmies
 {
-    [BepInPlugin(PluginInfo.PLUGIN_GUID, PluginInfo.PLUGIN_NAME, PluginInfo.PLUGIN_VERSION)]
+    [BepInPlugin(BepInEx.PluginInfo.PLUGIN_GUID, BepInEx.PluginInfo.PLUGIN_NAME,
+        BepInEx.PluginInfo.PLUGIN_VERSION)]
     public class Plugin : BaseUnityPlugin, IPluginLauncher
     {
         public static GameObject MovingArmiesGameObject { get; private set; }
@@ -39,12 +40,12 @@ namespace AnN3x.RealtimeMode
             EndlessMovingArmiesInstance = MovingArmiesGameObject.AddComponent<EndlessMovingArmies>();
             // RealtimeModeGameObject.SetActive(true);
 
-            Loggr.Debug($"{PluginInfo.PLUGIN_GUID} successfully loaded.");
+            Loggr.Debug($"{BepInEx.PluginInfo.PLUGIN_GUID} successfully loaded.");
         }
 
         private void LateUpdate()
         {
-            if (AnN3x.RealtimeMode.Config.Runtime.ShowUIKey.IsDown())
+            if (AnN3x.EndlessMovingArmies.Config.Runtime.ShowUIKey.IsDown())
             {
                 Loggr.Log("ShowUIKey.IsDown() in Update()", ConsoleColor.Green);
                 Launch();
@@ -57,7 +58,7 @@ namespace AnN3x.RealtimeMode
             Initializer.Unload();
             Destroy(EndlessMovingArmiesInstance);
             Destroy(MovingArmiesGameObject);
-            Loggr.Debug($"{PluginInfo.PLUGIN_GUID} successfully unloaded.");
+            Loggr.Debug($"{BepInEx.PluginInfo.PLUGIN_GUID} successfully unloaded.");
         }
 
         public void Launch() => ModalMessage.Show();

@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32210.238
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RealtimeMode", "RealtimeMode\RealtimeMode.csproj", "{D15DF3DC-769F-428B-A930-982CD1851D36}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EndlessMovingArmies", "EndlessMovingArmies\EndlessMovingArmies.csproj", "{D15DF3DC-769F-428B-A930-982CD1851D36}"
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "HumankindLib", "HumankindLib\HumankindLib.shproj", "{38F176D2-8014-46A9-AD2E-80AA014E49C0}"
 EndProject

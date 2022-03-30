@@ -12,7 +12,7 @@ using UnityEngine;
 using Army = Amplitude.Mercury.Interop.AI.Entities.Army;
 using Empire = Amplitude.Mercury.Interop.AI.Entities.Empire;
 
-namespace AnN3x.RealtimeMode.Armies;
+namespace AnN3x.EndlessMovingArmies.Armies;
 
 public class StandardEndlessMoving
 {

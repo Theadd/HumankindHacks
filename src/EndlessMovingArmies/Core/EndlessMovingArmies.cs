@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections;
+using AnN3x.EndlessMovingArmies.Armies;
 using AnN3x.HumankindLib;
 using AnN3x.ModdingLib;
-using AnN3x.RealtimeMode.Armies;
 using UnityEngine;
 
-namespace AnN3x.RealtimeMode;
+namespace AnN3x.EndlessMovingArmies;
 
 public class EndlessMovingArmies : MonoBehaviour
 {

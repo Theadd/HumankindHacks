@@ -5,7 +5,7 @@ using AnN3x.ModdingLib;
 
 // ReSharper disable StaticMemberInitializerReferesToMemberBelow
 
-namespace AnN3x.RealtimeMode.UI;
+namespace AnN3x.EndlessMovingArmies.UI;
 
 public partial class ModalMessage
 {

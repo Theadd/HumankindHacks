@@ -15,7 +15,7 @@ using AnN3x.HumankindLib.Reflection;
 using AnN3x.ModdingLib;
 using UnityEngine;
 
-namespace AnN3x.RealtimeMode.UI;
+namespace AnN3x.EndlessMovingArmies.UI;
 
 public partial class ModalMessage
 {
