@@ -3,18 +3,18 @@ using AnN3x.ModdingLib;
 using AnN3x.HumankindLib;
 using UnityEngine;
 
-namespace AnN3x.EndlessMovingArmies
+namespace AnN3x.EndlessMovingArmies.Core
 {
     internal class Initializer
     {
         public static bool IsReadyToInitialize() => GameObject.Find("/WindowsRoot/SystemOverlays") != null;
-        
+
         public static void Setup()
         {
             Loggr.Enabled = !Config.QuietMode;
             Loggr.WriteLogToDisk = Config.WriteLogToDisk;
 
-            AnN3x.ModdingLib.Logging.PrintableValue.ValueParsers.Add(new HumankindPrintableValueParser());
+            ModdingLib.Logging.PrintableValue.ValueParsers.Add(new HumankindPrintableValueParser());
         }
 
         public static bool Initialize()
@@ -23,7 +23,7 @@ namespace AnN3x.EndlessMovingArmies
 
             if (!IsReadyToInitialize())
                 return false;
-            
+
             try
             {
                 HumankindGame.Initialize();
@@ -36,7 +36,7 @@ namespace AnN3x.EndlessMovingArmies
 
             return success;
         }
-        
+
         public static void Unload()
         {
             HumankindGame.Unload();

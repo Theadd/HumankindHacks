@@ -6,6 +6,7 @@ using Amplitude.Mercury;
 using Amplitude.Mercury.Interop;
 using Amplitude.Mercury.Simulation;
 using Amplitude.Mercury.UI;
+using AnN3x.EndlessMovingArmies.Core;
 using AnN3x.HumankindLib;
 using AnN3x.ModdingLib;
 using UnityEngine;

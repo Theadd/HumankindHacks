@@ -3,7 +3,7 @@ using AnN3x.ModdingLib;
 using BepInEx.Configuration;
 using UnityEngine;
 
-namespace AnN3x.EndlessMovingArmies;
+namespace AnN3x.EndlessMovingArmies.Core;
 
 internal class Config
 {
@@ -15,7 +15,7 @@ internal class Config
 #if DEBUG
     public static readonly bool DebugMode = true;
 #else
-        public static readonly bool DebugMode = false;
+    public static readonly bool DebugMode = false;
 #endif
 
     /// <summary>

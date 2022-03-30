@@ -5,7 +5,7 @@ using AnN3x.HumankindLib;
 using AnN3x.ModdingLib;
 using UnityEngine;
 
-namespace AnN3x.EndlessMovingArmies;
+namespace AnN3x.EndlessMovingArmies.Core;
 
 public class EndlessMovingArmies : MonoBehaviour
 {
@@ -52,7 +52,7 @@ public class EndlessMovingArmies : MonoBehaviour
 
     IEnumerator Loop()
     {
-        for (;;)
+        for (; ; )
         {
             yield return new WaitForSeconds(Config.EndlessMoving.LoopInterval);
             if (HumankindGame.IsInGame && Config.EndlessMoving.Enabled)

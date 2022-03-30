@@ -6,7 +6,7 @@
 		<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
 		<AssemblyName>AnN3x.Humankind.EndlessMovingArmies</AssemblyName>
 		<Description>Humankind Game Mod: Real-Time Strategy</Description>
-		<Version>1.0.0</Version>
+		<Version>1.1.0</Version>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<LangVersion>10.0</LangVersion>
 	
@@ -29,6 +29,9 @@
 		<ProduceReferenceAssembly>False</ProduceReferenceAssembly>
 		<Platforms>AnyCPU</Platforms>
 		<Configurations>Debug;Release</Configurations>
+		<Company>AnN3x</Company>
+		<AssemblyVersion>1.1.0</AssemblyVersion>
+		<FileVersion>1.1.0</FileVersion>
 	</PropertyGroup>
 
 	<PropertyGroup>
@@ -46,7 +49,7 @@
   <ItemGroup>
     <PackageReference Include="BepInEx.Analyzers" Version="1.0.8" PrivateAssets="all" />
     <PackageReference Include="BepInEx.Core" Version="5.*" />
-    <PackageReference Include="BepInEx.PluginInfoProps" Version="1.*" />
+    <PackageReference Include="BepInEx.PluginInfoProps" Version="1.1.0" />
     <PackageReference Include="UnityEngine.Modules" Version="2020.3.24" IncludeAssets="compile" />
   </ItemGroup>
   

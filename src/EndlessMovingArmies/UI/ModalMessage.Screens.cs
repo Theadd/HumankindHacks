@@ -1,6 +1,7 @@
 ﻿using System;
 using Amplitude.Mercury.UI;
 using Amplitude.UI;
+using AnN3x.EndlessMovingArmies.Core;
 using AnN3x.ModdingLib;
 
 // ReSharper disable StaticMemberInitializerReferesToMemberBelow
