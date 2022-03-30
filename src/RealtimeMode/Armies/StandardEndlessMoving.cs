@@ -69,15 +69,15 @@ public class StandardEndlessMoving
         CycleEnded = false;
     }
     
-    public static void Run()
+    public static void Run(bool isLockedByEndTurn)
     {
-        if (IsValidRun())
+        if (IsValidRun(isLockedByEndTurn))
             DoRun();
     }
     
-    private static bool IsValidRun()
+    private static bool IsValidRun(bool isLockedByEndTurn)
     {
-        if (HumankindGame.IsUILockedByEndTurn)
+        if (isLockedByEndTurn)
         {
             WasUILockedByEndTurn = true;
             return false;

@@ -23,6 +23,7 @@ public class AggressiveEndlessMoving
     public static bool IsProcessingMinorEmpires { get; private set; } = false;
     public static int[] ControlledByHuman { get; private set; }
     public static bool AreMandatoriesActive { get; private set; } = true;
+    public static bool WasLockedByEndTurn { get; private set; } = true;
 
     private static void Reset()
     {
@@ -63,8 +64,20 @@ public class AggressiveEndlessMoving
         EmpireIndicesLeft.Shuffle();
     }
 
-    public static void Run()
+    public static void Run(bool isLockedByEndTurn)
     {
+        if (isLockedByEndTurn)
+        {
+            WasLockedByEndTurn = true;
+            return;
+        }
+        
+        if (WasLockedByEndTurn)
+        {
+            WasLockedByEndTurn = false;
+            EmpireIndicesLeft.Clear();
+        }
+        
         if (EmpireIndicesLeft.Count == 0)
             Reset();
 

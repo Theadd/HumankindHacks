@@ -9,8 +9,8 @@ namespace AnN3x.RealtimeMode;
 
 public class RealtimeModeComponent : MonoBehaviour
 {
-    private static int LastKnownTurn = 0;
-    private static bool IsOnlineGame = false;
+    private static int LastKnownTurn { get; set; }
+    private static bool IsOnlineGame { get; set; }
 
     private void OnEnable() => StartCoroutine(Loop());
 
@@ -32,6 +32,8 @@ public class RealtimeModeComponent : MonoBehaviour
 
     private static void SendNotificationChatMessage()
     {
+        var prev = Colors.PrefixWithHash;
+        Colors.PrefixWithHash = false;
         var msg =
             $"<b>Endless Moving Armies</b> is set to {Gold(Config.EndlessMoving.Mode.ToString())} mode "
             + (Config.EndlessMoving.OnAllEmpires
@@ -40,6 +42,7 @@ public class RealtimeModeComponent : MonoBehaviour
                     ? Gold("only human empires")
                     : Gold("only I")))
             + " benefit from it.";
+        Colors.PrefixWithHash = prev;
 
         if (HumankindGame.TrySendChatMessage(msg))
         {
@@ -59,16 +62,16 @@ public class RealtimeModeComponent : MonoBehaviour
                 if (IsOnlineGame && !Config.RealtimeMode.EnableInOnlineSessions)
                     continue;
 
-                if (isNewTurn && IsOnlineGame && Config.EndlessMoving.IsChatNotificationPending)
+                if (IsOnlineGame && Config.EndlessMoving.IsChatNotificationPending)
                     SendNotificationChatMessage();
 
                 switch (Config.EndlessMoving.Mode)
                 {
                     case Config.MovingArmiesMode.Standard:
-                        StandardEndlessMoving.Run();
+                        StandardEndlessMoving.Run(isNewTurn || HumankindGame.IsUILockedByEndTurn);
                         break;
                     case Config.MovingArmiesMode.Aggressive:
-                        AggressiveEndlessMoving.Run();
+                        AggressiveEndlessMoving.Run(isNewTurn || HumankindGame.IsUILockedByEndTurn);
                         break;
                 }
             }
