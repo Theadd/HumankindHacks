@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
-using Amplitude;
-using Amplitude.Framework;
 using Amplitude.Graphics.Text;
 using Amplitude.Mercury.UI;
 using Amplitude.Mercury.UI.Helpers;
@@ -22,8 +20,6 @@ public partial class ModalMessage
     private static Texture2D _image;
     private static UITexture _uiTexture = UITexture.None;
     private static UIMapper _uiMapper;
-    private static MessageModalWindow.Message _message = MessageModalWindow.Message.Empty;
-    private static int _messageToken;
     private static Color BoxedBgColor { get; } = Colors.SeaShell.alpha(0.35f);
     public static readonly FieldInfo MsgBox = R.GetField<MessageModalWindow>("messageBox");
     public static readonly FieldInfo MinimumWidth = R.GetField<MessageBox>("minimumWidth");
@@ -33,7 +29,7 @@ public partial class ModalMessage
     public static readonly FieldInfo ButtonsTable = R.GetField<MessageBox>("buttonsTable");
     public static readonly FieldInfo AllButtons = R.GetField<MessageBox>("allButtons");
 
-    public static readonly string MapperName = "RealtimeModeMainWindow";
+    public static readonly string MapperName = "EndlessMovingArmiesWindow";
 
     public static Texture2D Image => _image ??= AssetHunter.GetAssetBundlesContaining("society_background")
         .FirstOrDefault()?.LoadAsset<Texture2D>("society_background");
@@ -87,8 +83,7 @@ public partial class ModalMessage
 
         foreach (var button in allButtons)
         {
-            button.UITransform.PivotYAnchor = new UIPivotAnchor(true, 0, 16f, 16f,
-                /* TODO */ 0);
+            button.UITransform.PivotYAnchor = new UIPivotAnchor(true, 0, 16f, 16f, 0);
         }
 
         var boxed = buttonsTable.gameObject.GetComponent<SquircleBackgroundWidget>();
@@ -149,10 +144,8 @@ public partial class ModalMessage
         }
 
         var boxed = buttonsTable.gameObject.GetComponent<SquircleBackgroundWidget>();
-        if (boxed != null)
-        {
+        if (boxed != null) 
             boxed.BackgroundColor = Color.clear;
-        }
 
         messageBox.RefreshNow();
     }
@@ -167,23 +160,18 @@ public partial class ModalMessage
     {
         _uiTexture = CreateUITexture(Image);
 
-        var uiMappers = Databases.GetDatabase<UIMapper>();
         var uiMapper = ScriptableObject.CreateInstance<UIMapper>();
-
         uiMapper.name = MapperName;
         uiMapper.XmlSerializableName = MapperName;
-        uiMapper.Title = "REALTIME MODE HACK";
-        uiMapper.Description =
-            "Here goes <b>plugin description</b>. Here goes plugin description. <c=ECEC00>Here goes plugin description</c>. Here goes plugin description.\n\nPlus some more info over here also.";
+        uiMapper.Title = "ENDLESS MOVING ARMIES HACK";
+        uiMapper.Description = "...";
         uiMapper.Images = new[]
         {
             new UIMapper.Image(_uiTexture, DataUtils.ImageSize.QRCode.ToString())
         };
         uiMapper.Initialize();
-        // uiMappers.Touch(uiMapper);
 
         return uiMapper;
-        //return uiMappers.GetValue(new StaticString(MapperName));
     }
 
     public static void Show()
@@ -205,7 +193,7 @@ public partial class ModalMessage
         Colors.PrefixWithHash = false;
         MessageModalWindow.Message msg = message;
 
-        _messageToken = MessageModalWindow.ShowMessage(ref msg);
+        MessageModalWindow.ShowMessage(ref msg);
         EnqueuedScreens++;
 
         ApplyUIStyle();

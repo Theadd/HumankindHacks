@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using AnN3x.EndlessMovingArmies.UI;
 using BepInEx;
-using AnN3x.ModdingLib;
 using AnN3x.ModdingLib.Core;
 using UnityEngine;
 
@@ -25,29 +23,16 @@ namespace AnN3x.EndlessMovingArmies
         {
             Initializer.Setup();
 
-            Loggr.Debug("BEGIN INITIALIZING...");
-
             while (!Initializer.Initialize())
-            {
                 yield return new WaitForSeconds(.1f);
-                Loggr.Debug("...");
-            }
-
-            Loggr.Debug("END INITIALIZING...");
 
             ArmyMover = MovingArmiesGameObject.AddComponent<EndlessArmyMover>();
-            // RealtimeModeGameObject.SetActive(true);
-
-            Loggr.Debug($"{PluginInfo.PLUGIN_GUID} successfully loaded.");
         }
 
         private void LateUpdate()
         {
-            if (EndlessMovingArmies.Config.Runtime.ShowUIKey.IsDown())
-            {
-                Loggr.Log("ShowUIKey.IsDown() in Update()", ConsoleColor.Green);
+            if (EndlessMovingArmies.Config.Runtime.ShowUIKey.IsDown()) 
                 Launch();
-            }
         }
 
         private void OnDestroy()
@@ -56,7 +41,6 @@ namespace AnN3x.EndlessMovingArmies
             Initializer.Unload();
             Destroy(ArmyMover);
             Destroy(MovingArmiesGameObject);
-            Loggr.Debug($"{PluginInfo.PLUGIN_GUID} successfully unloaded.");
         }
 
         public void Launch() => ModalMessage.Show();
