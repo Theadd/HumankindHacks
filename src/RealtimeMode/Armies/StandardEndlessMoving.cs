@@ -26,6 +26,7 @@ public class ArmyController
     public static bool CycleEnded { get; private set; } = true;
     public static bool AreMandatoriesActive { get; private set; } = true;
     public static int CycleModIndex { get; private set; } = 0;
+    public static bool WasUILockedByEndTurn { get; private set; } = false;
 
     private static void Reset()
     {
@@ -67,22 +68,47 @@ public class ArmyController
         EmpireIndicesLeft.Shuffle();
         CycleEnded = false;
     }
-
+    
     public static void Run()
     {
+        if (IsValidRun())
+            DoRun();
+    }
+    
+    private static bool IsValidRun()
+    {
+        if (HumankindGame.IsUILockedByEndTurn)
+        {
+            WasUILockedByEndTurn = true;
+            return false;
+        }
+
+        if (WasUILockedByEndTurn)
+        {
+            WasUILockedByEndTurn = false;
+            IdleLoopsLeft = 0;
+            CycleEnded = true;
+            EmpireIndicesLeft.Clear();
+        }
+        
         if (IdleLoopsLeft-- > 0)
-            return;
+            return false;
 
         if (!CycleEnded && EmpireIndicesLeft.Count == 0)
         {
             CycleEnded = true;
             IdleLoopsLeft = Config.EndlessMoving.IdleLoopsBetweenCycles;
-            return;
+            return false;
         }
 
         if (CycleEnded && EmpireIndicesLeft.Count == 0)
             Reset();
 
+        return true;
+    }
+
+    private static void DoRun()
+    {
         var someEmpires = EmpireIndicesLeft.Take(TakeUpTo);
         EmpireIndicesLeft = EmpireIndicesLeft.Skip(TakeUpTo).ToList();
 
@@ -95,16 +121,10 @@ public class ArmyController
             try
             {
                 if (Empires.ElementAt(empireIndex).Armies is { Length: > 0 } armies)
-                {
                     if (ControlledByHuman.Contains(empireIndex))
-                    {
                         KeepHumanControlledArmiesMoving(armies, empireIndex);
-                    }
                     else
-                    {
                         KeepAIControlledArmiesMoving(armies, empireIndex);
-                    }
-                }
             }
             catch (Exception e)
             {
@@ -115,6 +135,9 @@ public class ArmyController
 
     private static void KeepHumanControlledArmiesMoving(IEnumerable<Army> armies, int empireIndex)
     {
+        var processFurtherActions = false;
+        var autoExploreArmyIndex = 0;
+        
         foreach (var army in armies)
         {
             if (!army.IsIdle()) continue;
@@ -129,10 +152,10 @@ public class ArmyController
             {
                 if (army.AutoExplore)
                 {
-                    if (IsPrimaryBeingProcessed && movementRatio <= 0.5f)
-                    {
+                    if (movementRatio <= 0.5f && autoExploreArmyIndex % 4 == CycleModIndex)
                         army.RefillMovementPoints(simulationEntity);
-                    }
+
+                    autoExploreArmyIndex++;
                 }
                 else
                 {
@@ -142,6 +165,7 @@ public class ArmyController
                         // An active ArmyGoToAction waiting for next turn,
                         // dealt with the FurtherForEmpire call below
                         army.RefillMovementPoints(simulationEntity);
+                        processFurtherActions = true;
                     }
                     else if (movementPointsLeft == 0 && isRunning)
                     {
@@ -156,13 +180,15 @@ public class ArmyController
                 }
             }
         }
-
-        Amplitude.Mercury.Sandbox.Sandbox.ActionController.FurtherForEmpire(empireIndex);
+        
+        if (processFurtherActions)
+            Amplitude.Mercury.Sandbox.Sandbox.ActionController.FurtherForEmpire(empireIndex);
     }
 
     private static void KeepAIControlledArmiesMoving(IReadOnlyList<Army> armies, int empireIndex)
     {
         var isMajorEmpire = empireIndex < Amplitude.Mercury.Sandbox.Sandbox.NumberOfMajorEmpires;
+        var processFurtherActions = false;
 
         for (var i = 0; i < armies.Count; i++)
         {
@@ -183,6 +209,7 @@ public class ArmyController
                 var simulationEntity = army.GetSimulationEntity();
                 if (simulationEntity.IsAwake())
                     army.RefillMovementPoints(simulationEntity);
+                processFurtherActions = true;
             }
             else if (movementPointsLeft == 0 && !isRunning && isSecondaryBeingProcessed)
             {
@@ -194,6 +221,7 @@ public class ArmyController
             }
         }
 
-        Amplitude.Mercury.Sandbox.Sandbox.ActionController.FurtherForEmpire(empireIndex);
+        if (processFurtherActions)
+            Amplitude.Mercury.Sandbox.Sandbox.ActionController.FurtherForEmpire(empireIndex);
     }
 }

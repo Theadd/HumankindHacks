@@ -12,7 +12,7 @@ using Empire = Amplitude.Mercury.Interop.AI.Entities.Empire;
 
 namespace AnN3x.RealtimeMode.Armies;
 
-public class MovingArmiesAggressive
+public class AggressiveMovingArmiesMode
 {
     public static List<int> EmpireIndicesLeft { get; private set; } = new List<int>();
     public static int TakeUpTo { get; private set; }
