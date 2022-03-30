@@ -18,21 +18,21 @@ public partial class ModalMessage
         () => true,
         new StaticString("StartButton"),
         false);
-    
+
     private static readonly MessageBoxButton.Data StopButton = new(
         "Stop",
         "",
         () => true,
         new StaticString("StopButton"),
-        false);
-    
+        false) { IsRed = true };
+
     private static readonly MessageBoxButton.Data CloseButton = new(
         "Close",
         "",
         () => true,
         new StaticString("CloseButton"),
         true);
-    
+
     private static readonly MessageBoxButton.Data YesButton = new(
         "Yes",
         "",
@@ -49,34 +49,41 @@ public partial class ModalMessage
 
     private static readonly MessageBoxButton.Data CancelButton = new(
         "Cancel",
-        "Close this window without applying any change.",
+        "Close this window.",
         () => true,
         new StaticString("CancelButton"),
         true) { IsRed = true };
 
     private static readonly MessageBoxButton.Data NoneButton = new(MessageBox.Choice.None, null);
-    
+
     private static readonly MessageBoxButton.Data AllEmpiresButton = new(
-        "All Empires",
+        "All",
         "",
         () => true,
         new StaticString("AllEmpiresButton"),
         false);
-    
+
     private static readonly MessageBoxButton.Data HumanEmpiresButton = new(
-        "Human Empires Only",
+        "Humans",
         "",
         () => true,
         new StaticString("HumanEmpiresButton"),
         false);
-    
+
+    private static readonly MessageBoxButton.Data LocalEmpireButton = new(
+        "Only Me",
+        "",
+        () => true,
+        new StaticString("HumanEmpiresButton"),
+        false);
+
     private static readonly MessageBoxButton.Data StandardModeButton = new(
         "Standard Mode",
         "",
         () => true,
         new StaticString("StandardModeButton"),
         false);
-    
+
     private static readonly MessageBoxButton.Data AggressiveModeButton = new(
         "Aggressive Mode",
         "",

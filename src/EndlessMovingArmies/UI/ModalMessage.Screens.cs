@@ -46,6 +46,7 @@ public partial class ModalMessage
 
     private static Message ChooseMovingArmiesModeScreen = new(BaseMessage)
     {
+        Description = Strings.MovingArmiesModeScreenDescription,
         Buttons = new MessageBoxButton.Data[]
         {
             new ModalButton(AggressiveModeButton)
@@ -53,7 +54,7 @@ public partial class ModalMessage
                 Action = () =>
                 {
                     Config.EndlessMoving.Mode = Config.MovingArmiesMode.Aggressive;
-                    ShowScreen(AdvancedOptionsEndScreen);
+                    ShowScreen(ChooseAffectedEmpiresScreen);
                 }
             },
             new ModalButton(StandardModeButton)
@@ -70,8 +71,7 @@ public partial class ModalMessage
 
     private static Message ChooseAffectedEmpiresScreen = new(BaseMessage)
     {
-        Description = (Func<string>) (() =>
-            $"Config.EndlessMoving.OnAllEmpires = <b>{Config.EndlessMoving.OnAllEmpires}</b>."),
+        Description = Strings.AffectedEmpiresScreenDescription,
         Buttons = new MessageBoxButton.Data[]
         {
             new ModalButton(AllEmpiresButton)
@@ -79,7 +79,7 @@ public partial class ModalMessage
                 Action = () =>
                 {
                     Config.EndlessMoving.OnAllEmpires = true;
-                    ShowScreen(AdvancedOptionsEndScreen);
+                    ShowScreen(EnabledInOnlineGamesScreen);
                 }
             },
             new ModalButton(HumanEmpiresButton)
@@ -87,16 +87,51 @@ public partial class ModalMessage
                 Action = () =>
                 {
                     Config.EndlessMoving.OnAllEmpires = false;
+                    Config.EndlessMoving.IncludeOtherEmpiresControlledByHuman = true;
+                    ShowScreen(EnabledInOnlineGamesScreen);
+                }
+            },
+            new ModalButton(LocalEmpireButton)
+            {
+                Action = () =>
+                {
+                    Config.EndlessMoving.OnAllEmpires = false;
+                    Config.EndlessMoving.IncludeOtherEmpiresControlledByHuman = false;
+                    ShowScreen(EnabledInOnlineGamesScreen);
+                }
+            },
+            // new ModalButton(BackButton) { Action = () => ShowScreen(ChooseMovingArmiesModeScreen) },
+        }
+    };
+
+    private static Message EnabledInOnlineGamesScreen = new(BaseMessage)
+    {
+        Description = Strings.EnabledInOnlineGamesScreenDescription,
+        Buttons = new MessageBoxButton.Data[]
+        {
+            new ModalButton(YesButton)
+            {
+                Action = () =>
+                {
+                    Config.Runtime.EnableInOnlineSessions = true;
                     ShowScreen(AdvancedOptionsEndScreen);
                 }
             },
-            new ModalButton(BackButton) { Action = () => ShowScreen(ChooseMovingArmiesModeScreen) },
+            new ModalButton(NoButton)
+            {
+                Action = () =>
+                {
+                    Config.Runtime.EnableInOnlineSessions = false;
+                    ShowScreen(AdvancedOptionsEndScreen);
+                }
+            },
+            new ModalButton(BackButton) { Action = () => ShowScreen(ChooseAffectedEmpiresScreen) },
         }
     };
 
     private static Message AdvancedOptionsEndScreen = new(BaseMessage)
     {
-        Description = "DONE.",
+        Description = Strings.AdvancedOptionsEndScreenDescription,
         Buttons = new MessageBoxButton.Data[]
         {
             new ModalButton(BackButton)
