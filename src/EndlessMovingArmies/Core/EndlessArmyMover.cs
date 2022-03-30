@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections;
-using AnN3x.EndlessMovingArmies.Armies;
+using AnN3x.EndlessMovingArmies.MovingArmies;
 using AnN3x.HumankindLib;
 using AnN3x.ModdingLib;
 using UnityEngine;
 
-namespace AnN3x.EndlessMovingArmies.Core;
+namespace AnN3x.EndlessMovingArmies;
 
-public class EndlessMovingArmies : MonoBehaviour
+public class EndlessArmyMover : MonoBehaviour
 {
     private static int LastKnownTurn { get; set; }
     private static bool IsOnlineGame { get; set; }

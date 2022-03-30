@@ -5,20 +5,17 @@ using BepInEx;
 using AnN3x.ModdingLib;
 using AnN3x.ModdingLib.Core;
 using UnityEngine;
-using AnN3x.EndlessMovingArmies.Core;
 
 namespace AnN3x.EndlessMovingArmies
 {
-    [BepInPlugin(PluginInfo.PLUGIN_GUID, PluginInfo.PLUGIN_NAME,
-        PluginInfo.PLUGIN_VERSION)]
+    [BepInPlugin(PluginInfo.PLUGIN_GUID, PluginInfo.PLUGIN_NAME, PluginInfo.PLUGIN_VERSION)]
     public class Plugin : BaseUnityPlugin, IPluginLauncher
     {
         public static GameObject MovingArmiesGameObject { get; private set; }
-        public static Core.EndlessMovingArmies EndlessMovingArmiesInstance { get; private set; }
+        public static EndlessArmyMover ArmyMover { get; private set; }
 
         private void Awake()
         {
-            // Instance = this;
             MovingArmiesGameObject = new GameObject("EndlessMovingArmies");
             MovingArmiesGameObject.transform.parent = gameObject.transform;
             MovingArmiesGameObject.SetActive(false);
@@ -38,7 +35,7 @@ namespace AnN3x.EndlessMovingArmies
 
             Loggr.Debug("END INITIALIZING...");
 
-            EndlessMovingArmiesInstance = MovingArmiesGameObject.AddComponent<Core.EndlessMovingArmies>();
+            ArmyMover = MovingArmiesGameObject.AddComponent<EndlessArmyMover>();
             // RealtimeModeGameObject.SetActive(true);
 
             Loggr.Debug($"{PluginInfo.PLUGIN_GUID} successfully loaded.");
@@ -46,7 +43,7 @@ namespace AnN3x.EndlessMovingArmies
 
         private void LateUpdate()
         {
-            if (Core.Config.Runtime.ShowUIKey.IsDown())
+            if (EndlessMovingArmies.Config.Runtime.ShowUIKey.IsDown())
             {
                 Loggr.Log("ShowUIKey.IsDown() in Update()", ConsoleColor.Green);
                 Launch();
@@ -57,7 +54,7 @@ namespace AnN3x.EndlessMovingArmies
         {
             MovingArmiesGameObject.SetActive(false);
             Initializer.Unload();
-            Destroy(EndlessMovingArmiesInstance);
+            Destroy(ArmyMover);
             Destroy(MovingArmiesGameObject);
             Loggr.Debug($"{PluginInfo.PLUGIN_GUID} successfully unloaded.");
         }

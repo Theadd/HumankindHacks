@@ -3,7 +3,7 @@ using AnN3x.ModdingLib;
 using AnN3x.HumankindLib;
 using UnityEngine;
 
-namespace AnN3x.EndlessMovingArmies.Core
+namespace AnN3x.EndlessMovingArmies
 {
     internal class Initializer
     {

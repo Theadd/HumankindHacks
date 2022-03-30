@@ -1,8 +1,6 @@
 ﻿using System;
-using Amplitude;
 using Amplitude.Framework;
 using Amplitude.Mercury.UI;
-using AnN3x.EndlessMovingArmies.Core;
 using AnN3x.ModdingLib;
 
 namespace AnN3x.EndlessMovingArmies.UI;
