@@ -29,7 +29,8 @@ internal class Config
         public static MovingArmiesMode Mode = MovingArmiesMode.Standard;
         public static bool OnAllEmpires = true;
         public static bool IncludeOtherEmpiresControlledByHuman = true;
-
+        public static bool IsChatNotificationPending = true;
+        
         /// <summary>
         /// Determines the number of empires being processed each loop dividing the provided value by
         /// the number of empires of all types (major/minor/etc). So, the time that takes a full cycle of
@@ -77,6 +78,8 @@ internal class Config
                 _enabled = Plugin.RealtimeModeGameObject.activeSelf;
             }
         }
+
+        public static bool EnableInOnlineSessions = false;
 
         public static KeyboardShortcut ShowUIKey { get; set; } =
             new KeyboardShortcut(KeyCode.F1, KeyCode.LeftControl);

@@ -18,6 +18,7 @@ public partial class ModalMessage
         {
             if (--EnqueuedScreens >= 1) return;
 
+            Config.EndlessMoving.IsChatNotificationPending = true;
             CloseMessageBox();
             CloseModalWindow();
             RollbackUIStyle();

@@ -2,11 +2,13 @@
 using AnN3x.HumankindLib.Reflection;
 using System.Linq;
 using Amplitude.Framework.Game;
+using Amplitude.Framework.Session;
 using Amplitude.Mercury.AI.Brain;
 using Amplitude.Mercury.Interop;
 using Amplitude.Mercury.Interop.AI;
 using Amplitude.Mercury.Interop.AI.Entities;
 using Amplitude.Mercury.Sandbox;
+using AnN3x.ModdingLib;
 using Snapshots = Amplitude.Mercury.Interop.Snapshots;
 
 namespace AnN3x.HumankindLib;
@@ -16,10 +18,15 @@ public partial class HumankindGame
     public static bool IsInGame => View == ViewType.InGame && GameState == GameChangeAction.Started;
     public static bool IsOutGame => View == ViewType.OutGame && GameState == GameChangeAction.Shutdown;
     public static bool IsLoadingGame => View == ViewType.Loading && GameState is GameChangeAction.Starting or GameChangeAction.Started;
+    public static bool IsOnlineGame => SessionService?.Session?.SessionMode == SessionMode.Online;
 
     public static bool IsUILockedByEndTurn => Amplitude.Mercury.Presentation.Presentation
         .PresentationUIController is { IsUILockedByEndTurn: true };
     public static int Turn => Amplitude.Mercury.Interop.AI.Snapshots.Game?.Turn ?? 0;
+    
+    public static bool TrySendChatMessage(string message) => 
+        SessionService?.Session?.Chat is not null 
+        && ((Action)(() => SessionService?.Session?.Chat?.PostMessage(message))).TryInvoke();
     
     public static IAIPlayer[] GetIAIPlayers() => 
         (IAIPlayer[]) R.AIPlayerByEmpireIndex.GetValue(Sandbox.AIController);
