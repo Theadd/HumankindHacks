@@ -27,7 +27,17 @@ public class RealtimeModeComponent : MonoBehaviour
         {
             yield return new WaitForSeconds(Config.EndlessMoving.LoopInterval);
             if (HumankindGame.IsInGame && Config.EndlessMoving.Enabled)
-                ArmyController.Run();
+            {
+                switch (Config.EndlessMoving.Mode)
+                {
+                    case Config.MovingArmiesMode.Standard:
+                        StandardEndlessMoving.Run();
+                        break;
+                    case Config.MovingArmiesMode.Aggressive:
+                        AggressiveEndlessMoving.Run();
+                        break;
+                }
+            }
         }
     }
 }

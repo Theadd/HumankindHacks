@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Amplitude.Framework;
 using Amplitude.Mercury;
 using Amplitude.Mercury.Interop;
 using Amplitude.Mercury.Simulation;
+using Amplitude.Mercury.UI;
 using AnN3x.HumankindLib;
 using AnN3x.ModdingLib;
 using UnityEngine;
@@ -12,16 +14,15 @@ using Empire = Amplitude.Mercury.Interop.AI.Entities.Empire;
 
 namespace AnN3x.RealtimeMode.Armies;
 
-public class AggressiveMovingArmiesMode
+public class AggressiveEndlessMoving
 {
     public static List<int> EmpireIndicesLeft { get; private set; } = new List<int>();
     public static int TakeUpTo { get; private set; }
     public static IEnumerable<Empire> Empires { get; private set; } = new List<Empire>();
     public static int SkippedCyclesToMinor { get; private set; } = 0;
     public static bool IsProcessingMinorEmpires { get; private set; } = false;
-
     public static int[] ControlledByHuman { get; private set; }
-    // public static int LastKnownTurn { get; private set; } = 0;
+    public static bool AreMandatoriesActive { get; private set; } = true;
 
     private static void Reset()
     {
@@ -30,11 +31,15 @@ public class AggressiveMovingArmiesMode
             .Where(e => e.IsControlledByHuman)
             .Select(h => h.EmpireIndex)
             .ToArray();
-        // LastKnownTurn = HumankindGame.Turn;
+        
+        if (Services.GetService<IUIService>() is UIManager uiManager)
+            AreMandatoriesActive = uiManager.ActivateMandatories;
 
         if (!Config.EndlessMoving.OnAllEmpires)
         {
-            EmpireIndicesLeft = new List<int>() { HumankindGame.LocalEmpireIndex };
+            EmpireIndicesLeft = Config.EndlessMoving.IncludeOtherEmpiresControlledByHuman
+                ? ControlledByHuman.ToList()
+                : new List<int>() { HumankindGame.LocalEmpireIndex };
             TakeUpTo = 1;
         }
         else
@@ -140,7 +145,7 @@ public class AggressiveMovingArmiesMode
                 }
                 else if (!isRunning)
                 {
-                    if (Config.EndlessMoving.SkipOneTurn && isAwake)
+                    if (AreMandatoriesActive && isAwake)
                         army.SkipOneTurn();
                 }
             }

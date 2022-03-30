@@ -26,6 +26,13 @@ public partial class ModalMessage
         new StaticString("StopButton"),
         false);
     
+    private static readonly MessageBoxButton.Data CloseButton = new(
+        "Close",
+        "",
+        () => true,
+        new StaticString("CloseButton"),
+        true);
+    
     private static readonly MessageBoxButton.Data YesButton = new(
         "Yes",
         "",
@@ -48,4 +55,39 @@ public partial class ModalMessage
         true) { IsRed = true };
 
     private static readonly MessageBoxButton.Data NoneButton = new(MessageBox.Choice.None, null);
+    
+    private static readonly MessageBoxButton.Data AllEmpiresButton = new(
+        "All Empires",
+        "",
+        () => true,
+        new StaticString("AllEmpiresButton"),
+        false);
+    
+    private static readonly MessageBoxButton.Data HumanEmpiresButton = new(
+        "Human Empires Only",
+        "",
+        () => true,
+        new StaticString("HumanEmpiresButton"),
+        false);
+    
+    private static readonly MessageBoxButton.Data StandardModeButton = new(
+        "Standard Mode",
+        "",
+        () => true,
+        new StaticString("StandardModeButton"),
+        false);
+    
+    private static readonly MessageBoxButton.Data AggressiveModeButton = new(
+        "Aggressive Mode",
+        "",
+        () => true,
+        new StaticString("AggressiveModeButton"),
+        false);
+
+    private static readonly MessageBoxButton.Data BackButton = new(
+        "Back",
+        "Go back.",
+        () => true,
+        new StaticString("BackButton"),
+        false) { IsRed = true };
 }

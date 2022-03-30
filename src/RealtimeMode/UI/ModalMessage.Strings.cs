@@ -1,5 +1,6 @@
 ﻿using System;
 using Amplitude;
+using Amplitude.Framework;
 using Amplitude.Mercury.UI;
 using AnN3x.ModdingLib;
 
@@ -14,24 +15,50 @@ public partial class ModalMessage
         private static string RedKeyword(string str) => $"<b><c={Colors.FireBrick}>{str}</c></b>";
 
         public static Func<string> MainScreenDescription = (() =>
-            @$"Welcome, this is the main screen of the <b>RealtimeMode</b> plugin.
+            @$"Welcome, this is the main screen of the <b>Endless Moving Armies</b> plugin.
 
 
 Plugin's current {Gold("configuration")} is as follows.
 
-  * <b>Endless Moving Armies</b> is {(!Config.EndlessMoving.Enabled ? Gold("disabled") + "." : (Gold("enabled") + $" {(Config.EndlessMoving.OnAllEmpires ? "and " + Gold("all empires") + " benefit" : "but " + Gold("only you") + " benefit")} from its functionality."))} 
+  * {MainScreenItemMovingArmies} 
 
-{(Config.RealtimeMode.Enabled ? MainScreenDescriptionOnRuntimeEnabled : MainScreenDescriptionOnRuntimeDisabled)}");
+  * {MainScreenItemSkipOneTurn}
 
-        private static string MainScreenDescriptionOnRuntimeEnabled => 
-            $@"<b><c={Colors.DarkOrange}>RealtimeMode's runtime is already running.</c></b>
 
-  * Click the {Keyword("STOP")} button to disable all plugin features at once, being back to normal gameplay again.
+<c={Colors.DarkOrange}>State of <b>Endless Moving Armies</b> plugin is:</c> {PluginStateString}
 
-  * Click {Keyword("OPTIONS")} to change some RealtimeMode plugin settings.
+  * {MainScreenStartStopButtonDescription}
 
-  * To go back to the game, just click the {RedKeyword("CANCEL")} button.";
+  * {MainScreenOptionsButtonDescription}");
 
-        private static string MainScreenDescriptionOnRuntimeDisabled => "";
+        private static string PluginStateString =>
+            "<b>" + (Config.RealtimeMode.Enabled
+                ? $"<c={Colors.LimeGreen}>Running</c>"
+                : $"<c={Colors.SlateGray}>Inactive</c>") + "</b>";
+        
+        private static string MainScreenStartStopButtonDescription =>
+            (Config.RealtimeMode.Enabled
+                ? $"Click the {Keyword("STOP")} button to deactivate all plugin features at once, being back to normal gameplay again."
+                : $"Click the {Keyword("START")} button to activate <b>Endless Moving Armies</b> plugin.");
+
+        private static string MainScreenOptionsButtonDescription =>
+            $"Click {Keyword("OPTIONS")} to change some plugin settings.";
+
+        private static string MainScreenItemMovingArmies =>
+            $"<b>Endless Moving Armies</b> is set to {Gold(Config.EndlessMoving.Mode.ToString())} mode "
+            + (Config.EndlessMoving.OnAllEmpires 
+                ? "and " + Gold("all empires") 
+                : "but " + (Config.EndlessMoving.IncludeOtherEmpiresControlledByHuman 
+                    ? Gold("only human empires") 
+                    : Gold("only you")))
+            + " benefit from it.";
+
+        private static string MainScreenItemSkipOneTurn =>
+            ((Services.GetService<IUIService>() as UIManager)?.ActivateMandatories ?? false)
+                ? $"Your <b>Mandatories</b> settings are {Gold("enabled")} in {Keyword("Settings > UI > Enable Mandatories")}. " +
+                  "With <b>Endless Moving Armies</b> active, there will always be armies with movement points left and " +
+                  "that would block you from pressing the <b>End Turn</b> button. As a workaround, all armies whose " +
+                  $"movement points have been altered, will be set to {Gold("SkipOneTurn")} action after ending its movement action."
+                : $"Your <b>Mandatories</b> settings are {Gold("disabled")} in {Keyword("Settings > UI > Enable Mandatories")}.";
     }
 }

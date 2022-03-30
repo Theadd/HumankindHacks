@@ -14,7 +14,7 @@ using Empire = Amplitude.Mercury.Interop.AI.Entities.Empire;
 
 namespace AnN3x.RealtimeMode.Armies;
 
-public class ArmyController
+public class StandardEndlessMoving
 {
     public static List<int> EmpireIndicesLeft { get; private set; } = new List<int>();
     public static int TakeUpTo { get; private set; }
