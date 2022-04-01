@@ -1,10 +1,9 @@
-﻿using System;
+﻿#if !NOIMGUI
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Amplitude;
 using Amplitude.Framework;
-using Amplitude.Framework.Asset;
-// using Amplitude.Framework.Asset;
 using Amplitude.Mercury.Presentation;
 using Amplitude.Mercury.UI.Windows;
 using Amplitude.UI;
@@ -14,7 +13,6 @@ using Amplitude.Mercury.UI;
 using AnN3x.HumankindLib.Reflection;
 using AnN3x.ModdingLib;
 using HarmonyLib;
-using UnityEngine;
 using AssetBundle = UnityEngine.AssetBundle;
 
 namespace AnN3x.HumankindLib.UI;
@@ -143,3 +141,4 @@ public class UIController
     }
 }
 
+#endif

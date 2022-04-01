@@ -13,8 +13,9 @@ namespace AnN3x.EndlessMovingArmies
         {
             Loggr.Enabled = !Config.QuietMode;
             Loggr.WriteLogToDisk = Config.WriteLogToDisk;
-
+#if !NOLOGGR
             ModdingLib.Logging.PrintableValue.ValueParsers.Add(new HumankindPrintableValueParser());
+#endif
         }
 
         public static bool Initialize()

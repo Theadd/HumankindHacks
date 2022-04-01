@@ -1,12 +1,13 @@
-﻿using BepInEx;
-using System;
-using System.Collections.Generic;
+﻿using System;
+using System.Runtime.CompilerServices;
+#if !NOLOGGR
+using BepInEx;
 using System.Linq;
 using System.IO;
 using System.Reflection;
-using System.Text;
-using System.Runtime.CompilerServices;
 using AnN3x.ModdingLib.Logging;
+using BepInEx.Logging;
+#endif
 
 namespace AnN3x.ModdingLib
 {
@@ -15,13 +16,50 @@ namespace AnN3x.ModdingLib
     /// </summary>
     public class Loggr
     {
+        public static bool Enabled { get; set; } = true;
+        public static bool WriteLogToDisk { get; set; } = false;
+
+#if NOLOGGR
+        public static void Log(string message, ConsoleColor defaultColor, bool appendNewLine = true)
+        {
+        }
+
+        public static void Log(Exception ex,
+            [CallerLineNumber] int lineNumber = 0,
+            [CallerMemberName] string caller = null)
+        {
+        }
+
+        public static void Log(string message)
+        {
+        }
+
+        public static void Log(object obj)
+        {
+        }
+
+        public static void Log(object obj, ConsoleColor defaultColor)
+        {
+        }
+
+        public static void LogAll(object obj)
+        {
+        }
+
+        public static void LogAll(object obj, ConsoleColor defaultColor)
+        {
+        }
+
+        public static void Debug(string message,
+            [CallerLineNumber] int lineNumber = 0,
+            [CallerMemberName] string caller = null)
+        {
+        }
+#else
         private static bool _initialized;
         private static PropertyInfo _consoleStream;
         private static MethodInfo _setConsoleColor;
         private static Type _consoleManager;
-
-        public static bool Enabled { get; set; } = true;
-        public static bool WriteLogToDisk { get; set; } = false;
 
         /// <summary>
         ///     Prints a <c>message</c> to BepInEx's console with <c>defaultColor</c> as default text color. Use `%Color%` inline to change text color, where `Color` is any value within <c>ConsoleColor</c> enum.
@@ -168,12 +206,13 @@ namespace AnN3x.ModdingLib
 
         private static void WriteToDisk(string message)
         {
-            if (BepInEx.Logging.Logger.Listeners.FirstOrDefault(l =>
-                    l is BepInEx.Logging.DiskLogListener) is
-                BepInEx.Logging.DiskLogListener diskLogger)
+            if (Logger.Listeners.FirstOrDefault(l =>
+                    l is DiskLogListener) is
+                DiskLogListener diskLogger)
             {
                 diskLogger.LogWriter.Write(message);
             }
         }
+#endif
     }
 }

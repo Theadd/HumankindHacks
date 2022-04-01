@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if !NOLOGGR
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -94,3 +95,5 @@ namespace AnN3x.ModdingLib.Logging
         }
     }
 }
+
+#endif

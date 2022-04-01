@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿#if !NOLOGGR
+using System.Reflection;
 using System;
 using System.Linq;
 using System.Collections.Generic;
@@ -56,7 +57,7 @@ namespace AnN3x.ModdingLib.Logging
             var baseTypeName = type.BaseType?.Name ?? "";
             var arrayLength = ((Array)instance).Length;
             baseTypeName = baseTypeName.Length > 0 ? " %White%:%DarkBlue% " + baseTypeName +
-                "%White%(" + arrayLength + ") { " + (arrayLength > 0 ? "" : "} ") : " %White%{ " + (arrayLength > 0 ? "" : "} ");
+                                                     "%White%(" + arrayLength + ") { " + (arrayLength > 0 ? "" : "} ") : " %White%{ " + (arrayLength > 0 ? "" : "} ");
 
             var sb = new StringBuilder();
             // sb.AppendLine("%White%Type%DarkBlue% " + type.Name + " %DarkGray%(" + type.FullName + ") %White%{ ");
@@ -80,7 +81,7 @@ namespace AnN3x.ModdingLib.Logging
                 if (arrayLength - count > 0)
                 {
                     sb.AppendLine("    " + PrintableValue.ColorType.NotImportant + "... " + PrintableValue.ColorType.Default +
-                        (arrayLength - count) + " items remaining.");
+                                  (arrayLength - count) + " items remaining.");
                 }
 
                 sb.AppendLine("%White%} ");
@@ -151,10 +152,10 @@ namespace AnN3x.ModdingLib.Logging
         {
             sb.AppendLine(string.Join("\n",
                 methodMembers.Select(m => (m.IsStatic ? " %Yellow%static" : "       ") +
-                "%DarkMagenta% " + m.Name + "%DEFAULT%(" +
-                        (string.Join("%DEFAULT%, ", m.GetParameters().Select(p =>
-                            PrintableValue.ColorType.HeadingType + p.ParameterType.Name + "%Cyan% " + p.Name).ToArray())) +
-                        "%DEFAULT%) => " + PrintableValue.ColorType.FullType + m.ReturnType?.Name)
+                                          "%DarkMagenta% " + m.Name + "%DEFAULT%(" +
+                                          (string.Join("%DEFAULT%, ", m.GetParameters().Select(p =>
+                                              PrintableValue.ColorType.HeadingType + p.ParameterType.Name + "%Cyan% " + p.Name).ToArray())) +
+                                          "%DEFAULT%) => " + PrintableValue.ColorType.FullType + m.ReturnType?.Name)
             ));
         }
 
@@ -228,3 +229,5 @@ namespace AnN3x.ModdingLib.Logging
         }
     }
 }
+
+#endif

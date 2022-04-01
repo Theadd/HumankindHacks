@@ -1,6 +1,10 @@
-﻿using System;
+﻿#if !NOLOGGR
+using System;
+using System.Collections;
 using System.Linq;
 using System.Reflection;
+using Amplitude.Mercury.Interop.AI.Data;
+using BepInEx.Configuration;
 using static AnN3x.ModdingLib.Logging.PrintableValue;
 using UnityEngine;
 
@@ -42,13 +46,13 @@ namespace AnN3x.ModdingLib.Logging
                     fullType = "long";
                     break;
                 case "List`1":
-                    var listLength = ((System.Collections.ICollection)objectValue)?.Count;
+                    var listLength = ((ICollection)objectValue)?.Count;
                     result = ColorType.NotFound + "List<" + objectType.GetGenericArguments().FirstOrDefault().Name + ">[" + listLength + "]";
                     fullType = "List<" + objectType.GetGenericArguments().FirstOrDefault().FullName + ">";
                     lenMod = ColorType.NotFound.Length;
                     break;
                 case "Unit[]":
-                    var units = (Amplitude.Mercury.Interop.AI.Data.Unit[])objectValue;
+                    var units = (Unit[])objectValue;
                     var unitNames = string.Join(", ", units.AsEnumerable().Select(unit => unit.UnitDefinition.Name.ToString().Split('_').LastOrDefault()).ToArray());
                     lenMod = ColorType.HeadingType.Length + ColorType.Default.Length;
                     result = ColorType.HeadingType + "Unit[" + units.Length + "]" + ColorType.Default + " { " + unitNames + " }";
@@ -128,7 +132,7 @@ namespace AnN3x.ModdingLib.Logging
                     fullType = "Module";
                     break;
                 case "KeyboardShortcut":
-                    result = ColorType.HeadingType + "KeyboardShortcut " + ColorType.Default + ((BepInEx.Configuration.KeyboardShortcut)objectValue).ToString();
+                    result = ColorType.HeadingType + "KeyboardShortcut " + ColorType.Default + ((KeyboardShortcut)objectValue).ToString();
                     lenMod = ColorType.HeadingType.Length + ColorType.Default.Length;
                     break;
                 case "MethodInfo":
@@ -195,3 +199,5 @@ namespace AnN3x.ModdingLib.Logging
         }
     }
 }
+
+#endif

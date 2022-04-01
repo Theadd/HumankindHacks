@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if !NOLOGGR
+using System;
 using static AnN3x.ModdingLib.Logging.PrintableValue;
 
 namespace AnN3x.ModdingLib.Logging;
@@ -27,3 +28,5 @@ public class EnumValueParser : IPrintableValueParser
         return true;
     }
 }
+
+#endif

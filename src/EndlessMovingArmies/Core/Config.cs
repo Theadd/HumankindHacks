@@ -10,8 +10,12 @@ internal class Config
     /// <summary>
     /// Disables AnN3x.ModdingLib.Loggr logging to console/disk features. 
     /// </summary>
+#if !NOLOGGR
     public static readonly bool QuietMode = false;
-
+#else
+    public static readonly bool QuietMode = true;
+#endif
+    
 #if DEBUG
     public static readonly bool DebugMode = true;
 #else
@@ -21,7 +25,11 @@ internal class Config
     /// <summary>
     /// Enables AnN3x.ModdingLib.Loggr writing log messages to disk.
     /// </summary>
+#if !NOLOGGR
     public static readonly bool WriteLogToDisk = true;
+#else
+    public static readonly bool WriteLogToDisk = false;
+#endif
 
     public static class EndlessMoving
     {
@@ -79,7 +87,7 @@ internal class Config
             }
         }
 
-        public static bool EnableInOnlineSessions = true;
+        public static bool EnableInOnlineSessions = false;
 
         public static KeyboardShortcut ShowUIKey { get; set; } =
             new KeyboardShortcut(KeyCode.F1, KeyCode.LeftControl);

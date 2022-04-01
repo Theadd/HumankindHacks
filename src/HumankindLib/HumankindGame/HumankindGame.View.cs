@@ -61,7 +61,8 @@ public partial class HumankindGame
 
     private static void OnGameViewChanged(ChangeType changeType)
     {
-        Loggr.Debug(
-            $"#[{changeType.ToString()}] GameState = {GameState.ToString()}, View = (ViewType: {View.ToString()}, HasFocus: {ViewService.View.HasFocus}, IsActive: {ViewService.View.IsActive})");
+//        Loggr.Debug($"#[{changeType.ToString()}] GameState = {GameState.ToString()}, " +
+//                    $"View = (ViewType: {View.ToString()}, HasFocus: {ViewService.View.HasFocus}, " +
+//                    $"IsActive: {ViewService.View.IsActive})");
     }
 }
