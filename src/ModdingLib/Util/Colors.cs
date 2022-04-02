@@ -4,7 +4,7 @@ public static class Colors
 {
     public static bool PrefixWithHash { get; set; } = true;
 
-    public static Colorable[] Values =
+    private static readonly Colorable[] Values =
     {
         new Colorable("#F0F8FF"),
         new Colorable("#FAEBD7"),

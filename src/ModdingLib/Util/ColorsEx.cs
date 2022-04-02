@@ -13,10 +13,10 @@ public static class ColorsEx
     /// </summary>
     public static string ToHex(this Color color)
     {
-        byte r = (byte)Mathf.Clamp(Mathf.RoundToInt(color.r * 255f), 0, 255);
-        byte g = (byte)Mathf.Clamp(Mathf.RoundToInt(color.g * 255f), 0, 255);
-        byte b = (byte)Mathf.Clamp(Mathf.RoundToInt(color.b * 255f), 0, 255);
-        byte a = (byte)Mathf.Clamp(Mathf.RoundToInt(color.a * 255f), 0, 255);
+        byte r = (byte) Mathf.Clamp(Mathf.RoundToInt(color.r * 255f), 0, 255);
+        byte g = (byte) Mathf.Clamp(Mathf.RoundToInt(color.g * 255f), 0, 255);
+        byte b = (byte) Mathf.Clamp(Mathf.RoundToInt(color.b * 255f), 0, 255);
+        byte a = (byte) Mathf.Clamp(Mathf.RoundToInt(color.a * 255f), 0, 255);
 
         return a == 255 ? $"{r:X2}{g:X2}{b:X2}" : $"{r:X2}{g:X2}{b:X2}{a:X2}";
     }
@@ -26,7 +26,7 @@ public static class ColorsEx
     /// </summary>
     public static Color ToColor(this string _string) =>
         _string.Length >= 8 ? ToColorRGBA(_string) : ToColorRGB(_string);
-    
+
     /// <summary>
     /// Assumes the string is a 6-digit RGB Hex color code (with optional leading #) which it will parse into a UnityEngine.Color.
     /// Eg, FF0000 -> RGBA(1,0,0,1)
@@ -44,15 +44,15 @@ public static class ColorsEx
 
         var color = new Color
         {
-            r = (float)(r / (decimal)255),
-            g = (float)(g / (decimal)255),
-            b = (float)(b / (decimal)255),
+            r = (float) (r / (decimal) 255),
+            g = (float) (g / (decimal) 255),
+            b = (float) (b / (decimal) 255),
             a = 1
         };
 
         return color;
     }
-    
+
     /// <summary>
     /// Assumes the string is a 8-digit RGBA Hex color code (with optional leading #) which it will parse into a UnityEngine.Color.
     /// Eg, FF000080 -> RGBA(1, 0, 0, .5f)
@@ -71,10 +71,10 @@ public static class ColorsEx
 
         var color = new Color
         {
-            r = (float)(r / (decimal)255),
-            g = (float)(g / (decimal)255),
-            b = (float)(b / (decimal)255),
-            a = (float)(a / (decimal)255)
+            r = (float) (r / (decimal) 255),
+            g = (float) (g / (decimal) 255),
+            b = (float) (b / (decimal) 255),
+            a = (float) (a / (decimal) 255)
         };
 
         return color;

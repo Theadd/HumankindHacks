@@ -9,10 +9,10 @@ public readonly struct Colorable
 
     public Colorable(string color)
     {
-        hex = color.Replace("#", "");;
+        hex = color.Replace("#", "");
         rgb = color.ToColor();
     }
-    
+
     public Colorable(Color color)
     {
         rgb = color;
@@ -21,8 +21,8 @@ public readonly struct Colorable
 
     public Colorable(Colorable other, float alpha = 1f)
     {
-        byte a = (byte)Mathf.Clamp(Mathf.RoundToInt(alpha * 255f), 0, 255);
-        
+        byte a = (byte) Mathf.Clamp(Mathf.RoundToInt(alpha * 255f), 0, 255);
+
         rgb = new Color(other.rgb.r, other.rgb.g, other.rgb.b, Mathf.Clamp01(alpha));
         hex = other.hex.Substring(0, 6) + $"{a:X2}";
     }
