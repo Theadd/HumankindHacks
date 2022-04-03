@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>4A68F252-7342-4F26-A40B-45D6D5C051EE</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>AnN3x.StyledGUI</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Collections\IStorageService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collections\MetaContainer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collections\Storage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collections\StoredTypes.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collections\StringHandle.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collections\StringHandleEx.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Graphics.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Grid\CellSpanGrid.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Grid\GridStyles.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Grid\StyledGridEx.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Grid\VirtualGrid.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Grid\VirtualGridCursor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Grid\VirtualGridElements.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Grid\VirtualGridEx.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)KeyboardShortcutField.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Styled\Styled.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Styled\Styled.Tree.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Styles\Styles.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Styles\Styles.Other.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Styles\Styles.Tooltip.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Styles\Styles.Tree.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Styles\Styles.Unicode.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Tooltips\TooltipContainer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Tooltips\TooltipOverlay.cs" />
+  </ItemGroup>
+</Project>
