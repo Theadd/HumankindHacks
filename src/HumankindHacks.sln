@@ -13,6 +13,8 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "StyledGUI", "StyledGUI\Styl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScreenVisibilityControls", "ScreenVisibilityControls\ScreenVisibilityControls.csproj", "{4AD76F60-15BA-4E53-861F-0BE41A1CB7AD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UI", "UI\UI.csproj", "{CBA23022-7FD7-40BC-B4B9-E3669309C9D2}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		HumankindLib\HumankindLib.projitems*{38f176d2-8014-46a9-ad2e-80aa014e49c0}*SharedItemsImports = 13
@@ -33,6 +35,10 @@ Global
 		{4AD76F60-15BA-4E53-861F-0BE41A1CB7AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4AD76F60-15BA-4E53-861F-0BE41A1CB7AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4AD76F60-15BA-4E53-861F-0BE41A1CB7AD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CBA23022-7FD7-40BC-B4B9-E3669309C9D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CBA23022-7FD7-40BC-B4B9-E3669309C9D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CBA23022-7FD7-40BC-B4B9-E3669309C9D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CBA23022-7FD7-40BC-B4B9-E3669309C9D2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

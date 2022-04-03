@@ -1,0 +1,7 @@
+ManifestFileVersion: 0
+CRC: 2912801190
+AssetBundleManifest:
+  AssetBundleInfos:
+    Info_0:
+      Name: ann3x-shared-resources
+      Dependencies: {}

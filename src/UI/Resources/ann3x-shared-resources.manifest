@@ -1,0 +1,37 @@
+ManifestFileVersion: 0
+CRC: 3005006239
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: a5f9a3735ae849f2f94b745bbafea1f2
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 931e2f8058cfc418f2e1a18239c7b7c5
+HashAppended: 0
+ClassTypes:
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 12001, guid: 0000000000000000e000000000000000, type: 0}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 128
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/DevToolsAssets/UITextures/Food.png
+- Assets/DevToolsAssets/UITextures/Industry.png
+- Assets/DevToolsAssets/GUISkins/GenericUISkin.guiskin
+- Assets/DevToolsAssets/UITextures/Science.png
+- Assets/DevToolsAssets/UITextures/Money.png
+- Assets/DevToolsAssets/UITextures/Influence.png
+- Assets/DevToolsAssets/Fonts/seguisym.ttf
+- Assets/DevToolsAssets/UITextures/Faith.png
+- Assets/DevToolsAssets/UITextures/Stability.png
+Dependencies: []
