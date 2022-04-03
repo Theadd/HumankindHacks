@@ -40,12 +40,13 @@ internal class Config
         public static bool IsChatNotificationPending = true;
 
         /// <summary>
-        /// Determines the number of empires being processed each loop dividing the provided value by
-        /// the number of empires of all types (major/minor/etc). So, the time that takes a full cycle of
-        /// empires to process will be:
+        /// Determines the number of empires being processed each loop dividing the number of empires of
+        /// all types (major/minor/etc) by this value. So, the time that takes a full cycle of empires to
+        /// process will be:
         ///     LoopIterationsPerCollectionOfEmpires * LoopInterval
         /// </summary>
-        public static int LoopIterationsPerCollectionOfEmpires = 10;
+        public static int LoopIterationsPerCollectionOfEmpires => 
+            Mode == MovingArmiesMode.Standard ? 10 : 40;
 
         public static float LoopInterval = .1f;
 

@@ -32,7 +32,7 @@ public class AggressiveEndlessMoving
             .Where(e => e.IsControlledByHuman)
             .Select(h => h.EmpireIndex)
             .ToArray();
-        
+
         if (Services.GetService<IUIService>() is UIManager uiManager)
             AreMandatoriesActive = uiManager.ActivateMandatories;
 
@@ -71,13 +71,13 @@ public class AggressiveEndlessMoving
             WasLockedByEndTurn = true;
             return;
         }
-        
+
         if (WasLockedByEndTurn)
         {
             WasLockedByEndTurn = false;
             EmpireIndicesLeft.Clear();
         }
-        
+
         if (EmpireIndicesLeft.Count == 0)
             Reset();
 
@@ -110,58 +110,52 @@ public class AggressiveEndlessMoving
 
     private static void KeepArmiesMoving(IEnumerable<Army> armies, bool isControlledByHuman)
     {
-        var threshold = isControlledByHuman ? 1f : .2f;
+        var threshold = isControlledByHuman ? .8f : .15f;
+        var processFurtherActions = false;
+        var empireIndex = 0;
 
         foreach (var army in armies)
         {
-            if (army.IsIdle())
+            if (!army.IsIdle()) continue;
+            var simulationEntity = army.GetSimulationEntity();
+            var isAwake = (simulationEntity?.GetAwakeState() ?? AwakeState.Sleep) == AwakeState.Awake;
+            if (!isAwake) continue;
+            var isRunning = army.IsRunning();
+            var movementRatio = army.GetMovementRatio();
+
+
+            if (isControlledByHuman && army.AutoExplore)
             {
-                var simulationEntity = army.GetSimulationEntity();
-                var isAwake = (simulationEntity?.GetAwakeState() ?? AwakeState.Sleep) == AwakeState.Awake;
-                var isRunning = army.IsRunning();
-                var movementRatio = army.GetMovementRatio();
-                var otherFlags = isControlledByHuman || (!isRunning);
-
-                if (isAwake && movementRatio < threshold && otherFlags)
+                if (!isRunning || army.IsRunningWaitingForFinishTurn())
                 {
-                    if (isControlledByHuman)
-                    {
-                        army.SetMovementRatio(1f);
-                    }
-                    else
-                    {
-                        if (IsProcessingMinorEmpires)
-                        {
-                            army.SetMovementRatio(1f);
-                        }
-                        else
-                        {
-                            var hasAdjacentHumanArmies = army.GetAdjacentArmies()
-                                .Any(other => ControlledByHuman.Contains(other.EmpireIndex));
-
-                            if (hasAdjacentHumanArmies && army.GetMovementRatio() > 0)
-                            {
-                                army.SetMovementRatio(0);
-                                Amplitude.Mercury.Sandbox.Sandbox.SimulationEntityRepository
-                                    .SetSynchronizationDirty(
-                                        (ISimulationEntityWithSynchronization) simulationEntity);
-                                Loggr.Log(
-                                    $"LOCKED ARMY OF EMPIRE {army.EmpireIndex} DUE TO ADJACENT HUMAN CONTROLLED ARMY",
-                                    ConsoleColor.Red);
-                            }
-                            else if (!hasAdjacentHumanArmies)
-                            {
-                                army.SetMovementRatio(1f);
-                            }
-                        }
-                    }
+                    army.RefillMovementPoints(simulationEntity);
+                    processFurtherActions = true;
+                    empireIndex = army.EmpireIndex;
                 }
-                else if (!isRunning)
+                else if (movementRatio <= .2f)
                 {
-                    if (AreMandatoriesActive && isAwake)
-                        army.SkipOneTurn();
+                    army.RefillMovementPoints(simulationEntity);
                 }
             }
+            else if (army.IsRunningWaitingForFinishTurn())
+            {
+                army.RefillMovementPoints(simulationEntity);
+                processFurtherActions = true;
+                empireIndex = army.EmpireIndex;
+            }
+            else if ((movementRatio <= threshold && isRunning) ||
+                     (!isControlledByHuman && movementRatio <= threshold))
+            {
+                army.RefillMovementPoints(simulationEntity);
+            }
+            else if (isControlledByHuman && !isRunning && AreMandatoriesActive &&
+                     movementRatio is < .99f and > 0)
+            {
+                army.SkipOneTurn();
+            }
         }
+
+        if (processFurtherActions)
+            Amplitude.Mercury.Sandbox.Sandbox.ActionController.FurtherForEmpire(empireIndex);
     }
 }
