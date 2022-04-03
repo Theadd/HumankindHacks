@@ -1,0 +1,187 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net471</TargetFramework>
+        <Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
+        <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+        <AssemblyName>AnN3x.Humankind.ScreenVisibilityControls</AssemblyName>
+        <Description>Humankind Game Mod</Description>
+        <Version>1.0.0</Version>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <LangVersion>10.0</LangVersion>
+
+        <OutputType>Library</OutputType>
+        <Deterministic>true</Deterministic>
+        <DefineConstants></DefineConstants>
+        <IsCpp>false</IsCpp>
+        <DebugSymbols>false</DebugSymbols>
+        <DebugType>portable</DebugType>
+        <Optimize>true</Optimize>
+        <ErrorReport>none</ErrorReport>
+        <WarningLevel>4</WarningLevel>
+        <PlatformTarget>x64</PlatformTarget>
+        <Prefer32Bit>false</Prefer32Bit>
+        <RootNamespace>AnN3x.ScreenVisibilityControls</RootNamespace>
+        <Nullable>disable</Nullable>
+        <ImplicitUsings>disable</ImplicitUsings>
+        <PackageLicenseExpression>Unlicense</PackageLicenseExpression>
+        <ProduceReferenceAssembly>False</ProduceReferenceAssembly>
+        <Platforms>AnyCPU</Platforms>
+        <Configurations>Debug;Release</Configurations>
+        <Company>AnN3x</Company>
+        <AssemblyVersion>1.0.0</AssemblyVersion>
+        <FileVersion>1.0.0</FileVersion>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <NoWarn>$(NoWarn);CS1591</NoWarn>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+        <OutputPath>..\..\Release\ScreenVisibilityControls\</OutputPath>
+        <Prefer32Bit>false</Prefer32Bit>
+        <IsCpp>false</IsCpp>
+        <DocumentationFile>..\..\Release\ScreenVisibilityControls\AnN3x.Humankind.ScreenVisibilityControls.xml</DocumentationFile>
+        <DebugSymbols>false</DebugSymbols>
+        <DebugType>none</DebugType>
+        <Optimize>true</Optimize>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+        <DebugSymbols>true</DebugSymbols>
+        <DebugType>full</DebugType>
+        <Optimize>false</Optimize>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="BepInEx.Analyzers" Version="1.0.8" PrivateAssets="all"/>
+        <PackageReference Include="BepInEx.Core" Version="5.*"/>
+        <PackageReference Include="BepInEx.PluginInfoProps" Version="1.1.0"/>
+        <PackageReference Include="UnityEngine.Modules" Version="2020.3.24" IncludeAssets="compile"/>
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(TargetFramework.TrimEnd(`0123456789`))' == 'net'">
+        <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.2" PrivateAssets="all"/>
+    </ItemGroup>
+
+    <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+        <Message Text=" "/>
+        <Message Importance="high" Text="[HUMANKIND_GAME_PATH]"/>
+        <Message Importance="high" Text="    $(HUMANKIND_GAME_PATH)"/>
+        <Message Text=" "/>
+    </Target>
+
+    <Target Name="PostBuildCopyPlugin" AfterTargets="PostBuild" Condition="'$(HUMANKIND_GAME_PATH)' != ''">
+        <ItemGroup>
+            <FilesToCopy Include="$(TargetPath)"/>
+        </ItemGroup>
+        <Copy SourceFiles="@(FilesToCopy)" DestinationFolder="$(HUMANKIND_GAME_PATH)\BepInEx\scripts\"/>
+    </Target>
+
+    <ItemGroup>
+        <Reference Include="Amplitude.AI">
+            <HintPath>..\..\lib\References\Amplitude.AI.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="Amplitude.Core">
+            <HintPath>..\..\lib\References\Amplitude.Core.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="Amplitude">
+            <HintPath>..\..\lib\References\Amplitude.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="Amplitude.EGS">
+            <HintPath>..\..\lib\References\Amplitude.EGS.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="Amplitude.Framework">
+            <HintPath>..\..\lib\References\Amplitude.Framework.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="Amplitude.Graphics">
+            <HintPath>..\..\lib\References\Amplitude.Graphics.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="Amplitude.IO">
+            <HintPath>..\..\lib\References\Amplitude.IO.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="Amplitude.Mercury.AI.Brain">
+            <HintPath>..\..\lib\References\Amplitude.Mercury.AI.Brain.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="Amplitude.Mercury.Animation">
+            <HintPath>..\..\lib\References\Amplitude.Mercury.Animation.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="Amplitude.Mercury.Data">
+            <HintPath>..\..\lib\References\Amplitude.Mercury.Data.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="Amplitude.Mercury.Firstpass">
+            <HintPath>..\..\lib\References\Amplitude.Mercury.Firstpass.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="Amplitude.Mercury.Fx">
+            <HintPath>..\..\lib\References\Amplitude.Mercury.Fx.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="Amplitude.Mercury.Terrain">
+            <HintPath>..\..\lib\References\Amplitude.Mercury.Terrain.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="Amplitude.Mercury.WorldGenerator">
+            <HintPath>..\..\lib\References\Amplitude.Mercury.WorldGenerator.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="Amplitude.Photon">
+            <HintPath>..\..\lib\References\Amplitude.Photon.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="Amplitude.Platforms.XGP">
+            <HintPath>..\..\lib\References\Amplitude.Platforms.XGP.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="Amplitude.Steamworks">
+            <HintPath>..\..\lib\References\Amplitude.Steamworks.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="Amplitude.UI">
+            <HintPath>..\..\lib\References\Amplitude.UI.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="Assembly-CSharp-firstpass">
+            <HintPath>..\..\lib\References\Assembly-CSharp-firstpass.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="Assembly-CSharp">
+            <HintPath>..\..\lib\References\Assembly-CSharp.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="Sirenix.OdinInspector.Attributes">
+            <HintPath>..\..\lib\References\Sirenix.OdinInspector.Attributes.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="Sirenix.OdinInspector.CompatibilityLayer">
+            <HintPath>..\..\lib\References\Sirenix.OdinInspector.CompatibilityLayer.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="Sirenix.Serialization.AOTGenerated">
+            <HintPath>..\..\lib\References\Sirenix.Serialization.AOTGenerated.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="Sirenix.Serialization.Config">
+            <HintPath>..\..\lib\References\Sirenix.Serialization.Config.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="Sirenix.Serialization">
+            <HintPath>..\..\lib\References\Sirenix.Serialization.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="Sirenix.Utilities">
+            <HintPath>..\..\lib\References\Sirenix.Utilities.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+    </ItemGroup>
+</Project>

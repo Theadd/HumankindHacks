@@ -9,6 +9,10 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "HumankindLib", "HumankindLi
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "ModdingLib", "ModdingLib\ModdingLib.shproj", "{EDAD1558-652A-4E32-A7CA-28468FBA4941}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "StyledGUI", "StyledGUI\StyledGUI.shproj", "{FFF04520-DD9D-4360-9CC7-862C60C6F01D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScreenVisibilityControls", "ScreenVisibilityControls\ScreenVisibilityControls.csproj", "{4AD76F60-15BA-4E53-861F-0BE41A1CB7AD}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		HumankindLib\HumankindLib.projitems*{38f176d2-8014-46a9-ad2e-80aa014e49c0}*SharedItemsImports = 13
@@ -25,6 +29,10 @@ Global
 		{D15DF3DC-769F-428B-A930-982CD1851D36}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D15DF3DC-769F-428B-A930-982CD1851D36}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D15DF3DC-769F-428B-A930-982CD1851D36}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4AD76F60-15BA-4E53-861F-0BE41A1CB7AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4AD76F60-15BA-4E53-861F-0BE41A1CB7AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4AD76F60-15BA-4E53-861F-0BE41A1CB7AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4AD76F60-15BA-4E53-861F-0BE41A1CB7AD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
