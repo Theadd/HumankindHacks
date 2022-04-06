@@ -16,8 +16,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)HumankindGame\HumankindGame.View.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Reflection\R.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Reflection\R.Fields.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)UI\GUI\GUIWindow.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)UI\UIController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Util\AssetHunter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Util\HumankindPrintableValueParser.cs" />
   </ItemGroup>

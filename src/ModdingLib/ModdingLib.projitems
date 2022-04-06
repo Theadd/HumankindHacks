@@ -20,6 +20,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Logging\Loggr.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Util\ColorsEx.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Util\Invokable.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Util\UtilityEx.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Util\SafeInvoke.cs" />
   </ItemGroup>
 </Project>

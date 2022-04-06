@@ -21,7 +21,7 @@ namespace AnN3x.EndlessMovingArmies
         public static bool Initialize()
         {
             bool success = false;
-
+    
             if (!IsReadyToInitialize())
                 return false;
 

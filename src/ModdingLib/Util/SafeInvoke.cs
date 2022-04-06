@@ -2,12 +2,19 @@
 
 namespace AnN3x.ModdingLib;
 
-public static class UtilityEx
+public static class SafeInvoke
 {
+    public static void All(params Action[] actions) => All(true, actions);
+
+    public static void All(bool quiet, params Action[] actions)
+    {
+        foreach (var action in actions) action.TryInvoke(quiet);
+    }
+
     public static bool TryInvoke(this Action action, bool quiet = false)
     {
         bool success = true;
-        
+
         if (action != null)
         {
             try
@@ -24,11 +31,11 @@ public static class UtilityEx
 
         return success;
     }
-    
+
     public static bool TryInvoke(this Func<bool> action, bool quiet = false)
     {
         bool success = true;
-        
+
         if (action != null)
         {
             try
