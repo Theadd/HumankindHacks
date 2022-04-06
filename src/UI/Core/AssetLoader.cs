@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using UnityEngine;
@@ -33,44 +34,55 @@ public class AssetLoader
         _assetBundle = bundle;
     }
 
-    public static AssetLoader FromAssetBundleContaining(string assetPath) => 
+    public static AssetLoader FromAssetBundleContaining(string assetPath) =>
         new AssetLoader(GetFirstLoadedAssetBundlesContaining(assetPath));
 
     public static AssetBundle[] GetAllLoadedAssetBundlesContaining(string assetPath) => AssetBundle
         .GetAllLoadedAssetBundles()
         .Where(b => b.Contains(assetPath))
         .ToArray();
-    
+
     public static AssetBundle GetFirstLoadedAssetBundlesContaining(string assetPath) => AssetBundle
         .GetAllLoadedAssetBundles()
         .FirstOrDefault(b => b.Contains(assetPath));
 
     public static T SearchEverywhere<T>(string assetPath) where T : UnityEngine.Object
     {
-        T asset = GetFirstLoadedAssetBundlesContaining(assetPath)?.LoadAsset<T>(assetPath);
-        if (asset == null) return default;
-        asset.hideFlags = HideFlags.HideAndDontSave;
-        UnityEngine.Object.DontDestroyOnLoad(asset);
+        try
+        {
+            T asset = GetFirstLoadedAssetBundlesContaining(assetPath)?.LoadAsset<T>(assetPath);
+            if (asset == null) return default;
+            asset.hideFlags = HideFlags.HideAndDontSave;
+            UnityEngine.Object.DontDestroyOnLoad(asset);
 
-        return asset;
-
+            return asset;
+        }
+        catch (Exception)
+        {
+            return (T) null;
+        }
     }
-    
+
     public T Load<T>(string name) where T : UnityEngine.Object
     {
-        T asset = AssetBundle.LoadAsset<T>(name);
-        asset.hideFlags = HideFlags.HideAndDontSave;
-        UnityEngine.Object.DontDestroyOnLoad(asset);
+        try
+        {
+            T asset = AssetBundle.LoadAsset<T>(name);
+            asset.hideFlags = HideFlags.HideAndDontSave;
+            UnityEngine.Object.DontDestroyOnLoad(asset);
 
-        return asset;
+            return asset;
+        }
+        catch (Exception)
+        {
+            return (T) null;
+        }
     }
 
     public void Unload(bool unloadAllLoadedObjects)
     {
         if (_assetBundle != null)
-        {
             AssetBundle.Unload(unloadAllLoadedObjects);
-        }
     }
 
     private static AssetBundle CreateAssetBundleFrom(string resourceName, Assembly assembly) =>
@@ -78,13 +90,13 @@ public class AssetLoader
 
     private static byte[] ReadFully(Stream input)
     {
-        using (var ms = new MemoryStream())
-        {
-            byte[] buffer = new byte[81920];
-            int read;
-            while ((read = input.Read(buffer, 0, buffer.Length)) != 0)
-                ms.Write(buffer, 0, read);
-            return ms.ToArray();
-        }
+        using var ms = new MemoryStream();
+        byte[] buffer = new byte[81920];
+        int read;
+
+        while ((read = input.Read(buffer, 0, buffer.Length)) != 0)
+            ms.Write(buffer, 0, read);
+
+        return ms.ToArray();
     }
 }

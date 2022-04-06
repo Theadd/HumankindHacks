@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections;
 using Amplitude.Framework.Overlay;
-using Amplitude.Mercury.Overlay;
 using Amplitude.Mercury.UI;
 using Amplitude.UI;
 using Amplitude.UI.Interactables;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace AnN3x.UI
 {
@@ -41,13 +39,13 @@ namespace AnN3x.UI
                     {
                         var child = parentContainer.transform.GetChild(i);
 
-                        if (child.name == "AnN3xUIOverlays")
+                        if (child.name == Config.UIOverlayName)
                         {
                             Destroy(child.gameObject);
                         }
                     }
 
-                    _container = new GameObject("AnN3xUIOverlays");
+                    _container = new GameObject(Config.UIOverlayName);
                     _container.transform.parent = parentContainer != null ? parentContainer.transform : null;
                     _container.AddComponent<UITransform>();
                 }
@@ -65,7 +63,7 @@ namespace AnN3x.UI
 
         public Rect ApplyRelativeResolution(Rect rect)
         {
-            Rect uiRect = this.UITransform.Parent.Parent.GlobalRect;
+            Rect uiRect = UITransform.Parent.Parent.GlobalRect;
 
             return new Rect(
                 (uiRect.width * rect.x) / Screen.width,
@@ -96,11 +94,11 @@ namespace AnN3x.UI
 
             var rect = ApplyRelativeResolution(target.GetWindowPosition());
             _lastRect = rect;
-            this.UITransform.X = rect.x;
-            this.UITransform.Y = rect.y;
-            this.UITransform.Width = rect.width;
-            this.UITransform.Height = rect.height;
-            this.UITransform.VisibleSelf = true;
+            UITransform.X = rect.x;
+            UITransform.Y = rect.y;
+            UITransform.Width = rect.width;
+            UITransform.Height = rect.height;
+            UITransform.VisibleSelf = true;
             IsVisibleSelf = true;
         }
 
@@ -117,7 +115,7 @@ namespace AnN3x.UI
                         if (!ApplyRelativeResolution(Target.GetWindowPosition()).Equals(_lastRect))
                         {
                             _syncInterval = 0.1f;
-                            Sync(this.Target);
+                            Sync(Target);
                         }
                         else
                         {
@@ -154,9 +152,9 @@ namespace AnN3x.UI
 
         protected void Setup()
         {
-            this.UITransform = GetComponent<UITransform>();
-            this.Control = GetComponent<UIButton>();
-            this.Control.LoadIfNecessary();
+            UITransform = GetComponent<UITransform>();
+            Control = GetComponent<UIButton>();
+            Control.LoadIfNecessary();
 
             if (DEBUG_DRAW_OVERLAY && gameObject.GetComponent<SquircleBackgroundWidget>() == null)
             {
@@ -179,7 +177,7 @@ namespace AnN3x.UI
 
         public static void Unload()
         {
-            var c = GameObject.Find("/WindowsRoot/SystemOverlays/AnN3xUIOverlays");
+            var c = GameObject.Find("/WindowsRoot/SystemOverlays/" + Config.UIOverlayName);
             if (c != null)
             {
                 c.transform.parent = null;
@@ -203,7 +201,7 @@ namespace AnN3x.UI
             try
             {
                 priorAction?.Invoke();
-                UIOverlay.Find("UIOverlay" + target.GetInstanceID().ToString()).Sync(target);
+                UIOverlay.Find("UIOverlay" + target.GetInstanceID()).Sync(target);
             }
             catch (Exception)
             {

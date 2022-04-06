@@ -55,18 +55,12 @@ namespace AnN3x.UI
             if (TypeName == null)
                 TypeName = GetType().Name;
 
-            return "ToolWindow." + TypeName + "." + key;
-        }
-
-        // TODO: REMOVE
-        public static string GetDerivedTypeName<T>() where T : PopupToolWindow
-        {
-            return typeof(T).Name;
+            return $"{Config.ToolWindowKeyPrefix}.{TypeName}.{key}";
         }
 
         public static bool WasVisible<T>() where T : PopupToolWindow
         {
-            return PlayerPrefs.GetInt("ToolWindow." + typeof(T).Name + ".IsVisible", 0) == 1;
+            return PlayerPrefs.GetInt($"{Config.ToolWindowKeyPrefix}.{typeof(T).Name}.IsVisible", 0) == 1;
         }
 
         public virtual void OnWritePlayerPreferences()
@@ -81,14 +75,15 @@ namespace AnN3x.UI
             string prefKeyX = GetPlayerPrefKey("X");
             string prefKeyY = GetPlayerPrefKey("Y");
             
-            if (ShouldRestoreLastWindowPosition && PlayerPrefs.HasKey(prefKeyX) && PlayerPrefs.HasKey(prefKeyY))
+            if (RestoreLastWindowPosition && PlayerPrefs.HasKey(prefKeyX) && PlayerPrefs.HasKey(prefKeyY))
                 SetWindowPosition(PlayerPrefs.GetFloat(prefKeyX), PlayerPrefs.GetFloat(prefKeyY));
         }
         
         public abstract Rect GetWindowRect();
         public abstract void SetWindowRect(Rect rect);
         public abstract bool ShouldBeVisible { get; }
-        public abstract bool ShouldRestoreLastWindowPosition { get; }
+        public virtual bool UsePlayerPrefs { get; } = false;
+        public virtual bool RestoreLastWindowPosition { get; } = false;
         
         private static T Open<T>() where T : PopupToolWindow
         {

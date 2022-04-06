@@ -189,7 +189,4 @@
         <EmbeddedResource Include="Resources\*" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Legacy" />
-    </ItemGroup>
 </Project>

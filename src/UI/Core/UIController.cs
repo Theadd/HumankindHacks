@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Reflection;
 using Amplitude.Mercury.Presentation;
 using Amplitude.Mercury.UI;
@@ -79,18 +78,13 @@ public static class UIController
         OnGUIHasLoaded -= Dummy;
     }
 
-    private static void Dummy()
-    {
-    }
+    private static void Dummy() {}
 
-    private static void Unload()
-    {
-        // UIOverlay.Unload();
-    }
+    private static void Unload() => UIOverlay.Unload();
 
     public static void Initialize()
     {
-        DefaultSkin = Plugin.Assets.Load<GUISkin>("GenericUISkin");
+        DefaultSkin = Plugin.Assets.Load<GUISkin>("AnN3xUISkin");
         // Unload any previous UIOverlay remaining on scene
         Unload();
         InvokeOnGUIHasLoaded();

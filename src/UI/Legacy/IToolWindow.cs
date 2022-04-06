@@ -8,7 +8,7 @@ namespace AnN3x.UI
         Rect GetWindowRect();
         void SetWindowRect(Rect rect);
         bool ShouldBeVisible { get; }
-        bool ShouldRestoreLastWindowPosition { get; }
+        bool RestoreLastWindowPosition { get; }
         void OnWritePlayerPreferences();
         void OnReadPlayerPreferences();
         void Close(bool saveVisibilityStateBeforeClosing = false);

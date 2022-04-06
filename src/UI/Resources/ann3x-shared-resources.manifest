@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 3005006239
+CRC: 3081459198
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: a5f9a3735ae849f2f94b745bbafea1f2
+    Hash: 7ee505814a70312bf982427e8f255be9
   TypeTreeHash:
     serializedVersion: 2
     Hash: 931e2f8058cfc418f2e1a18239c7b7c5
@@ -27,11 +27,13 @@ SerializeReferenceClassIdentifiers: []
 Assets:
 - Assets/DevToolsAssets/UITextures/Food.png
 - Assets/DevToolsAssets/UITextures/Industry.png
-- Assets/DevToolsAssets/GUISkins/GenericUISkin.guiskin
+- Assets/DevToolsAssets/GUISkins/AnN3xUISkin.guiskin
 - Assets/DevToolsAssets/UITextures/Science.png
 - Assets/DevToolsAssets/UITextures/Money.png
 - Assets/DevToolsAssets/UITextures/Influence.png
-- Assets/DevToolsAssets/Fonts/seguisym.ttf
+- Assets/DevToolsAssets/Fonts/SeguiSym.ttf
 - Assets/DevToolsAssets/UITextures/Faith.png
+- Assets/DevToolsAssets/Skin/SourceCodePro-Light.otf
 - Assets/DevToolsAssets/UITextures/Stability.png
+- Assets/DevToolsAssets/Skin/SourceCodePro-Regular.otf
 Dependencies: []
