@@ -11,14 +11,16 @@ namespace AnN3x.UI
 
         public string TypeName { get; set; } = null;
 
-        private bool ForceWriteAsVisible = false;
+        private bool _forceWriteAsVisible = false;
 
         protected virtual void OnApplicationQuit() => OnWritePlayerPreferences();
 
         protected override void OnBecomeInvisible()
         {
             base.OnBecomeInvisible();
-            OnWritePlayerPreferences();
+            
+            if (UsePlayerPrefs)
+                OnWritePlayerPreferences();
         }
 
         public virtual void SetWindowPosition(float x, float y)
@@ -32,9 +34,12 @@ namespace AnN3x.UI
 
         protected override void OnBecomeVisible()
         {
-            OnReadPlayerPreferences();
+            if (UsePlayerPrefs)
+            {
+                OnReadPlayerPreferences();
+                PlayerPrefs.SetInt(GetPlayerPrefKey("IsVisible"), 1);
+            }
             
-            PlayerPrefs.SetInt(GetPlayerPrefKey("IsVisible"), 1);
             base.OnBecomeVisible();
         }
 
@@ -45,9 +50,12 @@ namespace AnN3x.UI
             PopupToolWindow popupWindow = this;
             
             yield return (object) base.Start();
-            string playerPrefKey = popupWindow.GetPlayerPrefKey("IsVisible");
-            if (PlayerPrefs.HasKey(playerPrefKey) && PlayerPrefs.GetInt(playerPrefKey) != 0)
-                popupWindow.ShowWindow(true);
+            if (UsePlayerPrefs)
+            {
+                var playerPrefKey = popupWindow.GetPlayerPrefKey("IsVisible");
+                if (PlayerPrefs.HasKey(playerPrefKey) && PlayerPrefs.GetInt(playerPrefKey) != 0)
+                    popupWindow.ShowWindow(true);
+            }
         }
 
         public virtual string GetPlayerPrefKey(string key)
@@ -63,15 +71,20 @@ namespace AnN3x.UI
             return PlayerPrefs.GetInt($"{Config.ToolWindowKeyPrefix}.{typeof(T).Name}.IsVisible", 0) == 1;
         }
 
+
         public virtual void OnWritePlayerPreferences()
         {
-            PlayerPrefs.SetInt(GetPlayerPrefKey("IsVisible"), ForceWriteAsVisible || IsVisible ? 1 : 0);
+            if (!UsePlayerPrefs) return;
+            
+            PlayerPrefs.SetInt(GetPlayerPrefKey("IsVisible"), _forceWriteAsVisible || IsVisible ? 1 : 0);
             PlayerPrefs.SetFloat(GetPlayerPrefKey("X"), GetWindowRect().x);
             PlayerPrefs.SetFloat(GetPlayerPrefKey("Y"), GetWindowRect().y);
         }
 
         public virtual void OnReadPlayerPreferences()
         {
+            if (!UsePlayerPrefs) return;
+            
             string prefKeyX = GetPlayerPrefKey("X");
             string prefKeyY = GetPlayerPrefKey("Y");
             
@@ -82,8 +95,8 @@ namespace AnN3x.UI
         public abstract Rect GetWindowRect();
         public abstract void SetWindowRect(Rect rect);
         public abstract bool ShouldBeVisible { get; }
-        public virtual bool UsePlayerPrefs { get; } = false;
-        public virtual bool RestoreLastWindowPosition { get; } = false;
+        public abstract bool RestoreLastWindowPosition { get; }
+        public abstract bool UsePlayerPrefs { get; }
         
         private static T Open<T>() where T : PopupToolWindow
         {
@@ -106,7 +119,7 @@ namespace AnN3x.UI
         public virtual void Close(bool saveVisibilityStateBeforeClosing = false)
         {
             if (saveVisibilityStateBeforeClosing && IsVisible)
-                ForceWriteAsVisible = true;
+                _forceWriteAsVisible = true;
             
             ShowWindow(false);
             Destroy(this);
