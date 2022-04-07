@@ -126,3 +126,7 @@ namespace MyCustomNamespace
     }
 }
 ```
+
+Finally, just launch the game and you'll see a window like this:
+
+![PlayerProfileWindow](https://raw.githubusercontent.com/Theadd/HumankindHacks/main/img/PlayerProfileWindow.png)
