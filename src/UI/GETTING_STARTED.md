@@ -1,6 +1,6 @@
 # GETTING STARTED GUIDE
 
-This guide assumes that you've [Humankind Mod Tool](https://gc2021.com/showthread.php?tid=3) installed and properly configured.
+This guide assumes that you already have [Humankind Mod Tool](https://gc2021.com/showthread.php?tid=3) installed and properly configured.
 
 ## SETUP
 
