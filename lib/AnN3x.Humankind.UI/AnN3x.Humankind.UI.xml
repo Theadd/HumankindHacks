@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>AnN3x.Humankind.UI</name>
+    </assembly>
+    <members>
+        <member name="P:AnN3x.UI.FloatingToolWindow.HideAllGUITools">
+            <summary>
+            Global visibility flag for all windows deriving from FloatingToolWindow.
+            </summary>
+        </member>
+    </members>
+</doc>
