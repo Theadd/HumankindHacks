@@ -12,7 +12,7 @@
 
         <OutputType>Library</OutputType>
         <Deterministic>true</Deterministic>
-        <DefineConstants></DefineConstants>
+        <DefineConstants>BEPINEX</DefineConstants>
         <IsCpp>false</IsCpp>
         <DebugSymbols>false</DebugSymbols>
         <DebugType>portable</DebugType>

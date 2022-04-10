@@ -1,4 +1,5 @@
-﻿namespace AnN3x.CoreLib;
+﻿#if BEPINEX
+namespace AnN3x.CoreLib;
 
 public static class Colors
 {
@@ -305,3 +306,5 @@ public static class Colors
     public static Colorable Yellow => Values[146];
     public static Colorable YellowGreen => Values[147];
 }
+
+#endif

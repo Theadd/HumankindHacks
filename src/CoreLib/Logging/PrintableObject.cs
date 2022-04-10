@@ -1,4 +1,7 @@
-﻿#if !NOLOGGR
+﻿#if !BEPINEX
+#define NOLOGGR
+#endif
+#if !NOLOGGR
 using System.Reflection;
 using System;
 using System.Linq;

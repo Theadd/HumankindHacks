@@ -1,3 +1,4 @@
+#if BEPINEX
 using UnityEngine;
 
 namespace AnN3x.CoreLib;
@@ -39,3 +40,4 @@ public readonly struct Colorable
 
     public override string ToString() => Colors.PrefixWithHash ? $"#{hex}" : hex;
 }
+#endif

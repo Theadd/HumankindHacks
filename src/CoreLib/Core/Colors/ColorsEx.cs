@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿#if BEPINEX
+using System.Globalization;
 using UnityEngine;
 
 namespace AnN3x.CoreLib;
@@ -80,3 +81,5 @@ public static class ColorsEx
         return color;
     }
 }
+
+#endif

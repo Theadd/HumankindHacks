@@ -1,7 +1,10 @@
-﻿using System;
+﻿#if !BEPINEX
+#define NOLOGGR
+#endif
+using System;
 using System.Runtime.CompilerServices;
-using AnN3x.CoreLib.Logging;
 #if !NOLOGGR
+using AnN3x.CoreLib.Logging;
 using BepInEx;
 using System.Linq;
 using System.IO;
