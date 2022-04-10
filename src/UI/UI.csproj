@@ -12,7 +12,7 @@
 
         <OutputType>Library</OutputType>
         <Deterministic>true</Deterministic>
-        <DefineConstants></DefineConstants>
+        <DefineConstants>BEPINEX</DefineConstants>
         <IsCpp>false</IsCpp>
         <DebugSymbols>false</DebugSymbols>
         <DebugType>portable</DebugType>
@@ -54,29 +54,29 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="BepInEx.Analyzers" Version="1.0.8" PrivateAssets="all"/>
-        <PackageReference Include="BepInEx.Core" Version="5.*"/>
-        <PackageReference Include="BepInEx.PluginInfoProps" Version="1.1.0"/>
-        <PackageReference Include="UnityEngine.Modules" Version="2020.3.24" IncludeAssets="compile"/>
+        <PackageReference Include="BepInEx.Analyzers" Version="1.0.8" PrivateAssets="all" />
+        <PackageReference Include="BepInEx.Core" Version="5.*" />
+        <PackageReference Include="BepInEx.PluginInfoProps" Version="1.1.0" />
+        <PackageReference Include="UnityEngine.Modules" Version="2020.3.24" IncludeAssets="compile" />
     </ItemGroup>
 
     <ItemGroup Condition="'$(TargetFramework.TrimEnd(`0123456789`))' == 'net'">
-        <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.2" PrivateAssets="all"/>
+        <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.2" PrivateAssets="all" />
     </ItemGroup>
 
     <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-        <Message Text=" "/>
-        <Message Importance="high" Text="[HUMANKIND_GAME_PATH]"/>
-        <Message Importance="high" Text="    $(HUMANKIND_GAME_PATH)"/>
-        <Message Text=" "/>
+        <Message Text=" " />
+        <Message Importance="high" Text="[HUMANKIND_GAME_PATH]" />
+        <Message Importance="high" Text="    $(HUMANKIND_GAME_PATH)" />
+        <Message Text=" " />
     </Target>
 
     <Target Name="PostBuildCopyPlugin" AfterTargets="PostBuild" Condition="'$(HUMANKIND_GAME_PATH)' != '' AND '$(Configuration)' == 'Release'">
         <ItemGroup>
-            <FilesToCopy Include="$(TargetPath)"/>
+            <FilesToCopy Include="$(TargetPath)" />
         </ItemGroup>
-        <Copy SourceFiles="@(FilesToCopy)" DestinationFolder="$(HUMANKIND_GAME_PATH)\BepInEx\plugins\"/>
-        <Copy SourceFiles="@(FilesToCopy)" DestinationFolder="..\..\lib\AnN3x.Humankind.UI\"/>
+        <Copy SourceFiles="@(FilesToCopy)" DestinationFolder="$(HUMANKIND_GAME_PATH)\BepInEx\plugins\" />
+        <Copy SourceFiles="@(FilesToCopy)" DestinationFolder="..\..\lib\AnN3x.Humankind.UI\" />
     </Target>
 
     <ItemGroup>
@@ -187,7 +187,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <EmbeddedResource Include="Resources\*"/>
+        <EmbeddedResource Include="Resources\*" />
     </ItemGroup>
 
 </Project>
