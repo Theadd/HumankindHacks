@@ -8,7 +8,7 @@ namespace AnN3x.EndlessMovingArmies;
 internal class Config
 {
     /// <summary>
-    /// Disables AnN3x.ModdingLib.Loggr logging to console/disk features. 
+    /// Disables AnN3x.CoreLib.Loggr logging to console/disk features. 
     /// </summary>
 #if !NOLOGGR
     public static readonly bool QuietMode = false;
@@ -23,7 +23,7 @@ internal class Config
 #endif
 
     /// <summary>
-    /// Enables AnN3x.ModdingLib.Loggr writing log messages to disk.
+    /// Enables AnN3x.CoreLib.Loggr writing log messages to disk.
     /// </summary>
 #if !NOLOGGR
     public static readonly bool WriteLogToDisk = true;

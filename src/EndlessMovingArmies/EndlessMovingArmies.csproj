@@ -187,7 +187,7 @@
         </Reference>
     </ItemGroup>
 
-    <Import Project="..\ModdingLib\ModdingLib.projitems" Label="Shared"/>
+    <Import Project="..\CoreLib\CoreLib.projitems" Label="Shared"/>
 
     <Import Project="..\HumankindLib\HumankindLib.projitems" Label="Shared"/>
 
