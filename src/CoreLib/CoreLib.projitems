@@ -15,11 +15,13 @@
     <Compile Include="$(MSBuildThisFileDirectory)Core\Invoke\Invokable.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Invoke\SafeInvoke.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Plugin\PluginInterfaces.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\Reflection\TypeAccess.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Logging\CommonValueParser.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Logging\EnumValueParser.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Logging\IPrintableValueParser.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Logging\PrintableObject.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Logging\PrintableValue.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Logging\Loggr.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Logging\UnityExplorer.cs" />
   </ItemGroup>
 </Project>

@@ -1,4 +1,7 @@
 ﻿#if !BEPINEX
+#if !NOLOGGR
+#define USE_DEFAULT
+#endif
 #define NOLOGGR
 #endif
 using System;
@@ -23,6 +26,28 @@ namespace AnN3x.CoreLib
         public static bool WriteLogToDisk { get; set; } = false;
 
 #if NOLOGGR
+        
+#if USE_DEFAULT
+        public static void Log(string message, ConsoleColor defaultColor, bool appendNewLine = true) => Log(message);
+
+        public static void Log(Exception ex,
+            [CallerLineNumber] int lineNumber = 0,
+            [CallerMemberName] string caller = null) => Log(ex.ToString());
+
+        public static void Log(string message) => Console.WriteLine(message);
+
+        public static void Log(object obj) => Log(obj.ToString());
+
+        public static void Log(object obj, ConsoleColor defaultColor) => Log(obj.ToString());
+
+        public static void LogAll(object obj) => Log(obj.ToString());
+
+        public static void LogAll(object obj, ConsoleColor defaultColor) => Log(obj.ToString());
+
+        public static void Debug(string message,
+            [CallerLineNumber] int lineNumber = 0,
+            [CallerMemberName] string caller = null) => Log(message);
+#else
         public static void Log(string message, ConsoleColor defaultColor, bool appendNewLine = true)
         {
         }
@@ -58,6 +83,7 @@ namespace AnN3x.CoreLib
             [CallerMemberName] string caller = null)
         {
         }
+#endif
 #else
         private static bool _initialized;
         private static PropertyInfo _consoleStream;
