@@ -1,8 +1,8 @@
 ﻿#if !NOLOGGR
 using System;
-using static AnN3x.ModdingLib.Logging.PrintableValue;
+using static AnN3x.CoreLib.Logging.PrintableValue;
 
-namespace AnN3x.ModdingLib.Logging;
+namespace AnN3x.CoreLib.Logging;
 
 public class EnumValueParser : IPrintableValueParser
 {
@@ -14,8 +14,8 @@ public class EnumValueParser : IPrintableValueParser
 
         if (objectType.IsEnum)
         {
-            lenMod = ColorType.EnumType.Length;
-            result = ColorType.EnumType + objectType.Name + "." + Enum.GetName(objectType, objectValue);
+            lenMod = PrintableValue.ColorType.EnumType.Length;
+            result = PrintableValue.ColorType.EnumType + objectType.Name + "." + Enum.GetName(objectType, objectValue);
             fullType += " Enum";
 
         }

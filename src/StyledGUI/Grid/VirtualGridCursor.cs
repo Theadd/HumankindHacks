@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using AnN3x.ModdingLib;
+using AnN3x.CoreLib;
 using AnN3x.StyledGUI.VirtualGridElements;
 using UnityEngine;
 

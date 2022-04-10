@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Linq.Expressions;
 
-namespace AnN3x.ModdingLib;
-
-// public delegate T Function<out T>();
+namespace AnN3x.CoreLib;
 
 public class Invokable<T>
 {

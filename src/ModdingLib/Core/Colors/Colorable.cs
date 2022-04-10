@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace AnN3x.ModdingLib;
+namespace AnN3x.CoreLib;
 
 public readonly struct Colorable
 {

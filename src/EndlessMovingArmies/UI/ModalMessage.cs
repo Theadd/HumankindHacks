@@ -10,7 +10,7 @@ using Amplitude.UI.Renderers;
 using Amplitude.UI.Windows;
 using AnN3x.HumankindLib;
 using AnN3x.HumankindLib.Reflection;
-using AnN3x.ModdingLib;
+using AnN3x.CoreLib;
 using UnityEngine;
 
 namespace AnN3x.EndlessMovingArmies.UI;

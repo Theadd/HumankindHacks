@@ -1,5 +1,5 @@
 ﻿using System;
-using AnN3x.ModdingLib;
+using AnN3x.CoreLib;
 using AnN3x.HumankindLib;
 using UnityEngine;
 
@@ -14,7 +14,7 @@ namespace AnN3x.EndlessMovingArmies
             Loggr.Enabled = !Config.QuietMode;
             Loggr.WriteLogToDisk = Config.WriteLogToDisk;
 #if !NOLOGGR
-            ModdingLib.Logging.PrintableValue.ValueParsers.Add(new HumankindPrintableValueParser());
+            CoreLib.Logging.PrintableValue.ValueParsers.Add(new HumankindPrintableValueParser());
 #endif
         }
 

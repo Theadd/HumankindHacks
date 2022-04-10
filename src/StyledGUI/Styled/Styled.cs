@@ -1,4 +1,4 @@
-﻿using AnN3x.ModdingLib;
+﻿using AnN3x.CoreLib;
 using UnityEngine;
 
 namespace AnN3x.StyledGUI

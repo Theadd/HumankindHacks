@@ -6,7 +6,7 @@ using Amplitude.Mercury;
 using Amplitude.Mercury.Interop;
 using Amplitude.Mercury.UI;
 using AnN3x.HumankindLib;
-using AnN3x.ModdingLib;
+using AnN3x.CoreLib;
 using UnityEngine;
 using Army = Amplitude.Mercury.Interop.AI.Entities.Army;
 using Empire = Amplitude.Mercury.Interop.AI.Entities.Empire;

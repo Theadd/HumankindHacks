@@ -2,7 +2,7 @@
 using Amplitude.Framework.Presentation;
 using Amplitude.Mercury.Presentation;
 using Amplitude.Framework.Game;
-using AnN3x.ModdingLib;
+using AnN3x.CoreLib;
 
 namespace AnN3x.HumankindLib;
 

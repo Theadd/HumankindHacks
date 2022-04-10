@@ -1,15 +1,21 @@
 ﻿using System;
+using System.Linq;
 
-namespace AnN3x.ModdingLib;
+namespace AnN3x.CoreLib;
 
 public static class SafeInvoke
 {
-    public static void All(params Action[] actions) => All(true, actions);
+    public static void InvokeOnAll(params Action[] actions) => InvokeOnAll(true, actions);
 
-    public static void All(bool quiet, params Action[] actions)
+    public static void InvokeOnAll(bool quiet, params Action[] actions)
     {
         foreach (var action in actions) action.TryInvoke(quiet);
     }
+    
+    public static bool All(params Action[] actions) => All(true, actions);
+    public static bool All(bool quiet, params Action[] actions) => actions.All(action => TryInvoke(action, quiet));
+    public static bool All(params Func<bool>[] actions) => All(true, actions);
+    public static bool All(bool quiet, params Func<bool>[] actions) => actions.All(action => TryInvoke(action, quiet));
 
     public static bool TryInvoke(this Action action, bool quiet = false)
     {
@@ -24,7 +30,7 @@ public static class SafeInvoke
             catch (Exception e)
             {
                 if (!quiet)
-                    Loggr.Log(e);
+                    Console.WriteLine(e);
                 success = false;
             }
         }
@@ -45,7 +51,7 @@ public static class SafeInvoke
             catch (Exception e)
             {
                 if (!quiet)
-                    Loggr.Log(e);
+                    Console.WriteLine(e);
                 success = false;
             }
         }

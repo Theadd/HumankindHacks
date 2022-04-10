@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
+using AnN3x.CoreLib.Logging;
 #if !NOLOGGR
 using BepInEx;
 using System.Linq;
 using System.IO;
 using System.Reflection;
-using AnN3x.ModdingLib.Logging;
 using BepInEx.Logging;
 #endif
 
-namespace AnN3x.ModdingLib
+namespace AnN3x.CoreLib
 {
     /// <summary>
     ///     A static logger with color support, only for printing to BepInEx's console window.

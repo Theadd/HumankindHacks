@@ -5,9 +5,9 @@ using Amplitude.UI;
 using Amplitude;
 using System;
 using System.Linq;
-using static AnN3x.ModdingLib.Logging.PrintableValue;
+using static AnN3x.CoreLib.Logging.PrintableValue;
 using UnityEngine;
-using AnN3x.ModdingLib.Logging;
+using AnN3x.CoreLib.Logging;
 
 namespace AnN3x.HumankindLib
 {

@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
 using UnityEngine;
 
-namespace AnN3x.ModdingLib;
+namespace AnN3x.CoreLib;
 
 public static class ColorsEx
 {

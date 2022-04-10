@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScreenVisibilityControls", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UI", "UI\UI.csproj", "{CBA23022-7FD7-40BC-B4B9-E3669309C9D2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScenarioEditor", "ScenarioEditor\ScenarioEditor.csproj", "{C4D1F688-B884-4E69-B392-0344426C7D9D}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		HumankindLib\HumankindLib.projitems*{38f176d2-8014-46a9-ad2e-80aa014e49c0}*SharedItemsImports = 13
@@ -39,6 +41,10 @@ Global
 		{CBA23022-7FD7-40BC-B4B9-E3669309C9D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CBA23022-7FD7-40BC-B4B9-E3669309C9D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CBA23022-7FD7-40BC-B4B9-E3669309C9D2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C4D1F688-B884-4E69-B392-0344426C7D9D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4D1F688-B884-4E69-B392-0344426C7D9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4D1F688-B884-4E69-B392-0344426C7D9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4D1F688-B884-4E69-B392-0344426C7D9D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

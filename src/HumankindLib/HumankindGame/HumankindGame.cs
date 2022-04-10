@@ -8,7 +8,7 @@ using Amplitude.Mercury.Interop;
 using Amplitude.Mercury.Interop.AI;
 using Amplitude.Mercury.Interop.AI.Entities;
 using Amplitude.Mercury.Sandbox;
-using AnN3x.ModdingLib;
+using AnN3x.CoreLib;
 using Snapshots = Amplitude.Mercury.Interop.Snapshots;
 
 namespace AnN3x.HumankindLib;

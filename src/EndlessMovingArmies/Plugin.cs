@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using AnN3x.EndlessMovingArmies.UI;
 using BepInEx;
-using AnN3x.ModdingLib.Core;
+using AnN3x.CoreLib.Plugin;
 using UnityEngine;
 
 namespace AnN3x.EndlessMovingArmies

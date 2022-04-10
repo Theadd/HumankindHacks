@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace AnN3x.ModdingLib.Logging
+namespace AnN3x.CoreLib.Logging
 {
     internal static class PrintableValue
     {

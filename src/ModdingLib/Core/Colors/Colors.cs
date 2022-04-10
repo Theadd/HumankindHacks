@@ -1,4 +1,4 @@
-﻿namespace AnN3x.ModdingLib;
+﻿namespace AnN3x.CoreLib;
 
 public static class Colors
 {

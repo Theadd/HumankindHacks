@@ -1,5 +1,5 @@
 ﻿using Amplitude.Framework.Runtime;
-using AnN3x.ModdingLib;
+using AnN3x.CoreLib;
 using BepInEx.Configuration;
 using UnityEngine;
 

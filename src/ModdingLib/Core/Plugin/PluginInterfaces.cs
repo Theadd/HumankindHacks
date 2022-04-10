@@ -1,4 +1,4 @@
-﻿namespace AnN3x.ModdingLib.Core;
+﻿namespace AnN3x.CoreLib.Plugin;
 
 public interface IPluginLauncher
 {

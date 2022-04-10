@@ -2,7 +2,7 @@
 using System.Collections;
 using AnN3x.EndlessMovingArmies.MovingArmies;
 using AnN3x.HumankindLib;
-using AnN3x.ModdingLib;
+using AnN3x.CoreLib;
 using UnityEngine;
 
 namespace AnN3x.EndlessMovingArmies;
