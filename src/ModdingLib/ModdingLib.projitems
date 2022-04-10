@@ -9,17 +9,17 @@
     <Import_RootNamespace>AnN3x.ModdingLib</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Core\Colors\Colorable.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\Colors\Colors.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\Colors\ColorsEx.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\Invoke\Invokable.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\Invoke\SafeInvoke.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Plugin\PluginInterfaces.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Logging\CommonValueParser.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Logging\EnumValueParser.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Logging\IPrintableValueParser.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Logging\PrintableObject.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Logging\PrintableValue.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Util\Colorable.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Util\Colors.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Logging\Loggr.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Util\ColorsEx.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Util\Invokable.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Util\SafeInvoke.cs" />
   </ItemGroup>
 </Project>
