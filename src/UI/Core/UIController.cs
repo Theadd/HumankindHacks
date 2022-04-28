@@ -41,7 +41,7 @@ public static class UIController
     public static bool IsAmplitudeUIVisible
     {
         get => UIManager.IsUiVisible;
-        set => UIManager.IsUiVisible = value;
+        set => UIManager.UpdateUIVisibility(value);
     }
 
     public static bool AreTooltipsVisible
