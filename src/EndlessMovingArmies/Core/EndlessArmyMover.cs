@@ -52,7 +52,7 @@ public class EndlessArmyMover : MonoBehaviour
 
     IEnumerator Loop()
     {
-        for (; ; )
+        for (;;)
         {
             yield return new WaitForSeconds(Config.EndlessMoving.LoopInterval);
             if (HumankindGame.IsInGame && Config.EndlessMoving.Enabled)

@@ -2,7 +2,7 @@
 using System;
 using System.Reflection;
 using AnN3x.CoreLib.Reflection;
-using HumankindModTool.Core;
+// using HumankindModTool.Core;
 
 namespace AnN3x.CoreLib;
 

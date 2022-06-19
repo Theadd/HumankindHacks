@@ -40,7 +40,7 @@ public static class ArmyEx
 
     public static AwakeState GetAwakeState(this Amplitude.Mercury.Simulation.Army self) =>
         (AwakeState) R.AwakeState.GetValue(self);
-    
+
     public static void SetMovementRatio(this Army army, float movementRatio) =>
         Amplitude.Mercury.Sandbox.SandboxManager.PostOrder(
             new OrderChangeMovementRatio(
@@ -50,16 +50,20 @@ public static class ArmyEx
             ), army.EmpireIndex);
 
     public static float GetMovementRatio(this Army army) => (float) army.PathfindContext.MovementRatio;
-    
-    public static void RefillMovementPoints(this Army army, Amplitude.Mercury.Simulation.Army simulationEntity)
+
+    public static void RefillMovementPoints(this Army army,
+        Amplitude.Mercury.Simulation.Army simulationEntity)
     {
         army.SetMovementRatio(.95f);
         Amplitude.Mercury.Sandbox.Sandbox.SimulationEntityRepository.SetSynchronizationDirty(
             (ISimulationEntityWithSynchronization) simulationEntity);
     }
 
-    public static bool IsRunning(this Army army) => army.GoToActionStatus != Army.ActionStatus.None;
-    public static bool IsRunningWaitingForFinishTurn(this Army army) => army.GoToActionStatus == Army.ActionStatus.WaitingForFinishTurn;
+    public static bool IsRunning(this Army army) => army.GoToAction.Status != Army.ActionStatus.None;
+
+    public static bool IsRunningWaitingForFinishTurn(this Army army) =>
+        army.GoToAction.Status == Army.ActionStatus.WaitingForFinishTurn;
+
     public static bool IsIdle(this Army army) => army.State == ArmyState.Idle;
 
     public static void SkipOneTurn(this Army army) =>
@@ -70,6 +74,7 @@ public static class ArmyEx
 
     public static bool IsAwake(this Army army) =>
         (army.GetSimulationEntity()?.GetAwakeState() ?? AwakeState.Sleep) == AwakeState.Awake;
+
     public static bool IsAwake(this Amplitude.Mercury.Simulation.Army army) =>
         (army?.GetAwakeState() ?? AwakeState.Sleep) == AwakeState.Awake;
 }

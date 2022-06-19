@@ -29,8 +29,8 @@
         <Platforms>AnyCPU</Platforms>
         <Configurations>Debug;Release</Configurations>
         <Company>AnN3x</Company>
-        <AssemblyVersion>1.1.1</AssemblyVersion>
-        <FileVersion>1.1.1</FileVersion>
+        <AssemblyVersion>1.1.2</AssemblyVersion>
+        <FileVersion>1.1.2</FileVersion>
     </PropertyGroup>
 
     <PropertyGroup>
@@ -45,7 +45,7 @@
         <DebugSymbols>false</DebugSymbols>
         <DebugType>none</DebugType>
         <Optimize>true</Optimize>
-        <DefineConstants>NOIMGUI;NOLOGGR</DefineConstants>
+        <DefineConstants>NOIMGUI;NOLOGGR;BEPINEX</DefineConstants>
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
